@@ -28,11 +28,16 @@ function insertIssue(sheet,data){
     rowPos = searchPosition(nowMonth,name,sheet);
   }
   
-
   // コメントからログ記録の選択を抽出
   var logToSheet = /<!-- スプレッドシートに記録するかどうか（はい: 1、いいえ: 0）: (\d) -->/.exec(commentBody);
 
   if (logToSheet && logToSheet[1] === '1' && rowPos != -1) {
+    // 挿入する行が一番上だったら
+    if(rowPos == 0){
+      rowPos +=1;
+      sheet.insertRowBefore(rowPos);
+      sheet.getRange(rowPos,1,1,sheet.getLastRow()).setBackground("#ffffff");
+    }
     // 新しい行を追加
     var trgRowHandle = sheet.getRange(rowPos,1);
     sheet.insertRowBefore(rowPos);

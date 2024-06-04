@@ -51,7 +51,7 @@ function moveRow(){
   }
 }
 
-
+// 挿入する場所を特定する関数
 function searchPosition(srcMonth,srcAuthor,targetSheet){
   // 移動先シートのデータ取得
   var targetRange = targetSheet.getRange(1,monthPosition,targetSheet.getLastRow(),2);

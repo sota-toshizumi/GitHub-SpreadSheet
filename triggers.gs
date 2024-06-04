@@ -59,6 +59,7 @@ function doPost(e){
   }
 }
 
+// スプレッドシートから必要になる定数を返す関数
 function setConsts(){
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tmpSheetName);
 

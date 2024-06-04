@@ -58,7 +58,7 @@ function insertIssue(sheet,data){
   }
 }
 
-
+// テンプレートから名前の変換と色の取得
 function authorInfo(name){
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tmpSheetName);
   var range = sheet.getRange(1,tmp_gitIdPosition,sheet.getLastRow(),1);
@@ -68,7 +68,7 @@ function authorInfo(name){
   for(let i=0;i<sheet.getLastRow();i++){
     if(value[i]==name)bufNameRow = i+1;
   }
-  // buf
+  // もし該当がなければ[name,#fffff]を返す
   var bufName=name;
   var bufColor="#ffffff";
   if(bufNameRow){

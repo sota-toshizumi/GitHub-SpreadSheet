@@ -13,7 +13,9 @@ function updateStatus(sheet,data){
   return 0;
 }
 
+// unLabelのリクエスト
 function unLabel(sheet,data){
+  // issueのid取得
   const issueId = data.issue.id;
 
   for(let i=1; i<=sheet.getLastRow(); i++){

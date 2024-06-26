@@ -2,9 +2,11 @@ const tmpSheetName = "template";
 const srcSheetName = "開発リスト";  // 使用シート
 const targetSheetName = "完了"; // 移動先シート
 const keyWord = "完了"; // keyWordであれば移動
-// 列
+
+// 行
 const topPosition = 2;
 
+// 列
 const idPosition = 1;
 const envPosition = 6;
 const statusPosition = 8; // 進捗
@@ -14,15 +16,25 @@ const titlePosition = 4; // タイトル
 
 const tmp_gitIdPosition = 1;
 const tmp_NamePosition = 2;
-const tmp_StatusTitle = 'git_label';
-const tmp_GitStatusLabel = 4;
-const tmp_StatusLabel =5;
+
+// 環境
+const enviornments = {
+  "Sample-issue-" : "www",
+
+}
+/*
+// 環境の対応設定をスプレッドシートから読み取るための設定
 const tmp_enviornmentTitle = 'git_repository';
 const tmp_gitRepository = 7;
 const tmp_enviornment = 8;
+var enviornments =[];
+*/
 
- var enviornments =[];
-  var labels = [];
+// ラベルの対応設定をスプレッドシートから読み取るための設定
+const tmp_StatusTitle = 'git_label';
+const tmp_GitStatusLabel = 4;
+const tmp_StatusLabel =5;
+var labels = [];
 
 // 開くたびに発火されるシンプルトリガー
 function onOpen(e){
@@ -63,6 +75,7 @@ function doPost(e){
 function setConsts(){
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tmpSheetName);
 
+  // ラベルの対応をスプレッドシートから読み込む
   var labelValue = sheet.getRange(2,tmp_GitStatusLabel,sheet.getLastRow(),2).getValues();
   for(var key in labelValue){
     if(labelValue[key][0] != "" && labelValue[key][0] != tmp_StatusTitle){
@@ -70,12 +83,12 @@ function setConsts(){
     }
   }
 
-
+/*
   var envValue = sheet.getRange(2,tmp_gitRepository,sheet.getLastRow(),2).getValues();
   for(var key in envValue){
     if(envValue[key][0] != "" && envValue[key][0] != tmp_enviornmentTitle){
       enviornments[envValue[key][0]] = envValue[key][1];
     }
   }
-
+  */
 }

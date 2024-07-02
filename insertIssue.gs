@@ -1,5 +1,4 @@
 function insertIssue(sheet,data){
-
   // テンプレートの取得
   var tmpSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tmpSheetName);
   var tmpRowHandle = tmpSheet.getRange(1,1,1,tmpSheet.getLastColumn());
@@ -17,6 +16,7 @@ function insertIssue(sheet,data){
   var month = currentDate.getMonth() + 1;
   var nowMonth = month + "月";
   
+  // 進捗状況は最終に登録したlabelを反映する
   var status = '未着手';
   for(var key in data.issue.labels){
     status = getLabel(data.issue.labels[key].name,status);
@@ -31,16 +31,20 @@ function insertIssue(sheet,data){
   // コメントからログ記録の選択を抽出
   var logToSheet = /<!-- スプレッドシートに記録するかどうか（はい: 1、いいえ: 0）: (\d) -->/.exec(commentBody);
 
+  // ここからスプレッドシート挿入処理
   if (logToSheet && logToSheet[1] === '1' && rowPos != -1) {
-    // 挿入する行が一番上だったら
+    // 挿入する行が一番上だったら一行追加する
+    // 常に一番上は空行
     if(rowPos == 0){
       rowPos +=1;
       sheet.insertRowBefore(rowPos);
       sheet.getRange(rowPos,1,1,sheet.getLastRow()).setBackground("#ffffff");
     }
+
     // 新しい行を追加
     var trgRowHandle = sheet.getRange(rowPos,1);
     sheet.insertRowBefore(rowPos);
+
     // データ入力
     sheet.getRange(rowPos,idPosition).setValue(issue.id);
     sheet.getRange(rowPos,monthPosition).setValue(nowMonth);
@@ -58,12 +62,17 @@ function insertIssue(sheet,data){
   }
 }
 
-// テンプレートから名前の変換と色の取得
+// githubのid -> スプレッドシートに記載する名前の変換
+// 引数: githubのid
+// 返り値: buf[0] = スプレッドシートに記載する名前
+//    　　　　　　　buf[1] = その人のセルのカラー
 function authorInfo(name){
+  // テンプレートシートからデータ取得
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tmpSheetName);
   var range = sheet.getRange(1,tmp_gitIdPosition,sheet.getLastRow(),1);
   var value = range.getValues();
 
+  // 該当する名前の登録があればbufNameRowを更新
   let bufNameRow = 0;
   for(let i=0;i<sheet.getLastRow();i++){
     if(value[i]==name)bufNameRow = i+1;

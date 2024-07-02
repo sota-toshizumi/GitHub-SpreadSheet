@@ -23,9 +23,11 @@ function unLabel(sheet,data){
   // issueのid取得
   const issueId = data.issue.id;
 
+  // シートを上からissueIdが一致するか確認する
   for(let i=1; i<=sheet.getLastRow(); i++){
     var range = sheet.getRange(i,idPosition);
     var id = range.getValue();
+    // idが一致すれば一番最近つけられたラベルに対応する進捗状況に更新する。なければ"未着手"
     if(id === issueId){  
       var status = '未着手';
       for(var key in data.issue.labels){

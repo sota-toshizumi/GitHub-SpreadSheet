@@ -22,6 +22,7 @@ function moveRow(){
         var srcMonth = value[i][monthPosition-1];
         var srcName = value[i][namePosition-1];
 
+        // 挿入する行番号
         var pos = searchPosition(srcMonth,srcName,targetSheet);
 
         if(pos != -1){
@@ -52,6 +53,11 @@ function moveRow(){
 }
 
 // 挿入する場所を特定する関数
+// 引数: srcMonth=入力するデータの月
+//    　　　　　srcAuthor=入力するデータの名前
+//      　targetSheet=入力先シート
+//　返り値: 挿入したい行番号
+//月の一致->名前の一致の順に見ていく
 function searchPosition(srcMonth,srcAuthor,targetSheet){
   // 移動先シートのデータ取得
   var targetRange = targetSheet.getRange(1,monthPosition,targetSheet.getLastRow(),2);

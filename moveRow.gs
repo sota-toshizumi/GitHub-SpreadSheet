@@ -19,7 +19,7 @@ function moveCompletedIssuesToCompleteSheet(){
       if(completeSheet.getLastRow()){
         // 移動元の月と編集者
         var srcMonth = value[i][monthColumnPosition-1];
-        var srcName = value[i][authorColumnPosition-1];
+        var srcName  = value[i][authorColumnPosition-1];
 
         // 挿入する行番号
         var pos = searchPosition(srcMonth,srcName,completeSheet);

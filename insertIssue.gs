@@ -51,6 +51,7 @@ function insertIssue(sheet,data){
     // スタイル
     templateRowHandle.copyTo(trgRowHandle, SpreadsheetApp.CopyPasteType.PASTE_FORMAT, false);
     templateRowHandle.copyTo(trgRowHandle, SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION, false);
+    // セルにカラーをつける
     sheet.getRange(rowPos, monthColumnPosition).setBackgrounds(authorColor);
     sheet.getRange(rowPos, authorColumnPosition).setBackgrounds(authorColor);
     sheet.getRange(rowPos, idColumnPosition).setBackgrounds(authorColor);

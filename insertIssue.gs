@@ -34,6 +34,12 @@ function insertIssue(sheet,data){
       sheet.getRange(rowPos,1, 1, sheet.getLastRow()).setBackground("#ffffff");
     }
 
+    if(rowPos == 1){
+      rowPos += 1;
+      sheet.insertRowBefore(rowPos);
+      sheet.getRange(rowPos,1, 1, sheet.getLastRow()).setBackground("#ffffff");
+    }
+
     // 新しい行を追加
     var trgRowHandle = sheet.getRange(rowPos, 1);
     sheet.insertRowBefore(rowPos);

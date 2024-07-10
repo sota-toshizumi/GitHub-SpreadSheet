@@ -9,7 +9,7 @@ function moveCompletedIssuesToCompleteSheet(){
   var value     = dataRange.getValues();
 
   // 行を下から見ていって該当カラムがkeyWordであればシートを移動
-  for(let i = srcSheet.getLastRow()-1;i > 0 ; i--){
+  for(let i = srcSheet.getLastRow()-1;i >= 0 ; i--){
     //該当セルが目的のキーワードであれば..
     if(value[i][statusPosition-1] === keyWord){    
       //行のハンドル取得

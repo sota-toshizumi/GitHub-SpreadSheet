@@ -7,7 +7,7 @@ function insertIssue(sheet,data){
   var issue                 = data.issue;
   var url                   = issue.html_url;
   var user                  = issue.user.login;
-  var [author, authorColor] = authorInfo(user);
+  var [author, authorColor] = getAuthorInfo(user);
   var nowMonth              = (new Date().getMonth() + 1) + "月";
   
   // 進捗状況は最終に登録したlabelを反映する
@@ -59,9 +59,9 @@ function insertIssue(sheet,data){
 
 // githubのid -> スプレッドシートに記載する名前の変換
 // 引数: githubのid
-// 返り値: buf[0] = スプレッドシートに記載する名前
-//    　　　　　　　buf[1] = その人のセルのカラー
-function authorInfo(author){
+// 返り値: bufAuthor      = スプレッドシートに記載する名前
+//    　　　　　　　bufAuthorColor = その人のセルのカラー
+function getAuthorInfo(author){
   // テンプレートシートからデータ取得
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
   var range = sheet.getRange(1,template_gitIdColumnPosition,sheet.getLastRow(),1);
@@ -72,11 +72,12 @@ function authorInfo(author){
   for(let i=0; i<sheet.getLastRow(); i++){
     if(value[i] == author) bufAuthorRow = i + 1;
   }
+
   // もし該当がなければ[author,#fffff]を返す
-  var bufAuthor  = author;
+  var bufAuthor      = author;
   var bufAuthorColor = "#ffffff";
   if(bufAuthorRow){
-    bufAuthor  = sheet.getRange(bufAuthorRow,template_AuthorColumnPosition).getValue();
+    bufAuthor      = sheet.getRange(bufAuthorRow,template_AuthorColumnPosition).getValue();
     bufAuthorColor = sheet.getRange(bufAuthorRow,template_AuthorColumnPosition).getBackgrounds();
   }
 

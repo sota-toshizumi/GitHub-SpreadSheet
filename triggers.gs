@@ -22,13 +22,6 @@ const enviornments = {
   "Sample-issue-" : "www",
 
 }
-/*
-// 環境の対応設定をスプレッドシートから読み取るための設定
-const tmp_enviornmentTitle = 'git_repository';
-const tmp_gitRepository = 7;
-const tmp_enviornment = 8;
-var enviornments =[];
-*/
 
 // ラベルの対応設定をスプレッドシートから読み取るための設定
 const tmp_StatusTitle = 'git_label';
@@ -83,7 +76,7 @@ function setConsts(){
     }
   }
 
-/*
+  /*
   var envValue = sheet.getRange(2,tmp_gitRepository,sheet.getLastRow(),2).getValues();
   for(var key in envValue){
     if(envValue[key][0] != "" && envValue[key][0] != tmp_enviornmentTitle){

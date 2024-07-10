@@ -1,4 +1,3 @@
-
 function moveRow(){
   // シートのインスタンス作成
   var sheets = SpreadsheetApp.getActiveSpreadsheet();

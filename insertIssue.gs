@@ -1,6 +1,6 @@
 function insertIssue(sheet,data){
   // テンプレートの取得
-  var tmpSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tmpSheetName);
+  var tmpSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
   var tmpRowHandle = tmpSheet.getRange(1,1,1,tmpSheet.getLastColumn());
 
   // 挿入するデータ
@@ -68,8 +68,8 @@ function insertIssue(sheet,data){
 //    　　　　　　　buf[1] = その人のセルのカラー
 function authorInfo(name){
   // テンプレートシートからデータ取得
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tmpSheetName);
-  var range = sheet.getRange(1,tmp_gitIdPosition,sheet.getLastRow(),1);
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
+  var range = sheet.getRange(1,template_gitIdColumnPosition,sheet.getLastRow(),1);
   var value = range.getValues();
 
   // 該当する名前の登録があればbufNameRowを更新
@@ -81,8 +81,8 @@ function authorInfo(name){
   var bufName=name;
   var bufColor="#ffffff";
   if(bufNameRow){
-    bufName = sheet.getRange(bufNameRow,tmp_NamePosition).getValue();
-    bufColor = sheet.getRange(bufNameRow,tmp_NamePosition).getBackgrounds();
+    bufName = sheet.getRange(bufNameRow,template_NameColumnPosition).getValue();
+    bufColor = sheet.getRange(bufNameRow,template_NameColumnPosition).getBackgrounds();
   }
 
   var buf=[];

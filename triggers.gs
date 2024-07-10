@@ -1,4 +1,4 @@
-const tmpSheetName = "template";
+const templateSheetName = "template";
 const srcSheetName = "開発リスト";  // 使用シート
 const targetSheetName = "完了"; // 移動先シート
 const keyWord = "完了"; // keyWordであれば移動
@@ -14,13 +14,12 @@ const monthColumnPosition = 2; // 現在の月
 const authorColumnPosition = 3; // 作成者
 const titleColumnPosition = 4; // タイトル
 
-const tmp_gitIdPosition = 1;
-const tmp_NamePosition = 2;
+const template_gitIdColumnPosition = 1;
+const template_NameColumnPosition  = 2;
 
 // 環境
 const enviornments = {
   "Sample-issue-" : "www",
-
 }
 
 // ラベルの対応設定をスプレッドシートから読み取るための設定
@@ -66,7 +65,7 @@ function doPost(e){
 
 // スプレッドシートから必要になる定数を返す関数
 function setConsts(){
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tmpSheetName);
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
 
   // ラベルの対応をスプレッドシートから読み込む
   var labelValue = sheet.getRange(2,tmp_GitStatusLabel,sheet.getLastRow(),2).getValues();

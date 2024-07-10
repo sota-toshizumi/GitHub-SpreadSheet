@@ -7,12 +7,12 @@ const keyWord = "完了"; // keyWordであれば移動
 const topPosition = 2;
 
 // 列
-const idPosition = 1;
-const envPosition = 6;
+const idColumnPosition = 1;
+const envColumnPosition = 6;
 const statusPosition = 8; // 進捗
-const monthPosition = 2; // 現在の月
-const namePosition = 3; // 作成者
-const titlePosition = 4; // タイトル
+const monthColumnPosition = 2; // 現在の月
+const authorColumnPosition = 3; // 作成者
+const titleColumnPosition = 4; // タイトル
 
 const tmp_gitIdPosition = 1;
 const tmp_NamePosition = 2;

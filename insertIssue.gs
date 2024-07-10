@@ -46,19 +46,19 @@ function insertIssue(sheet,data){
     sheet.insertRowBefore(rowPos);
 
     // データ入力
-    sheet.getRange(rowPos,idPosition).setValue(issue.id);
-    sheet.getRange(rowPos,monthPosition).setValue(nowMonth);
-    sheet.getRange(rowPos,namePosition).setValue(name);
+    sheet.getRange(rowPos,idColumnPosition).setValue(issue.id);
+    sheet.getRange(rowPos,monthColumnPosition).setValue(nowMonth);
+    sheet.getRange(rowPos,authorColumnPosition).setValue(name);
     sheet.getRange(rowPos,statusPosition).setValue(status);
-    sheet.getRange(rowPos,envPosition).setValue(enviornments[data.repository.name]);
-    sheet.getRange(rowPos,titlePosition).setFormula('=HYPERLINK("' + url + '", "' + title + '")');
+    sheet.getRange(rowPos,envColumnPosition).setValue(enviornments[data.repository.name]);
+    sheet.getRange(rowPos,titleColumnPosition).setFormula('=HYPERLINK("' + url + '", "' + title + '")');
 
     // スタイル
     tmpRowHandle.copyTo(trgRowHandle,SpreadsheetApp.CopyPasteType.PASTE_FORMAT,false);
     tmpRowHandle.copyTo(trgRowHandle,SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION,false);
-    sheet.getRange(rowPos,monthPosition).setBackgrounds(color);
-    sheet.getRange(rowPos,namePosition).setBackgrounds(color);
-    sheet.getRange(rowPos,idPosition).setBackgrounds(color);
+    sheet.getRange(rowPos,monthColumnPosition).setBackgrounds(color);
+    sheet.getRange(rowPos,authorColumnPosition).setBackgrounds(color);
+    sheet.getRange(rowPos,idColumnPosition).setBackgrounds(color);
   }
 }
 

@@ -4,7 +4,7 @@ function updateStatus(sheet,data){
   const issueId = data.issue.id;
   // 行を上から見ていく
   for(let i=1; i<=sheet.getLastRow(); i++){
-    var range = sheet.getRange(i,idPosition);
+    var range = sheet.getRange(i,idColumnPosition);
     var id = range.getValue();
     // idが一致
     if(id === issueId){
@@ -25,7 +25,7 @@ function unLabel(sheet,data){
 
   // シートを上からissueIdが一致するか確認する
   for(let i=1; i<=sheet.getLastRow(); i++){
-    var range = sheet.getRange(i,idPosition);
+    var range = sheet.getRange(i,idColumnPosition);
     var id = range.getValue();
     // idが一致すれば一番最近つけられたラベルに対応する進捗状況に更新する。なければ"未着手"
     if(id === issueId){  

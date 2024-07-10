@@ -19,8 +19,8 @@ function moveRow(){
       // 移動先のシートが空じゃなければ
       if(targetSheet.getLastRow()){
         // 移動元の月と編集者
-        var srcMonth = value[i][monthPosition-1];
-        var srcName = value[i][namePosition-1];
+        var srcMonth = value[i][monthColumnPosition-1];
+        var srcName = value[i][authorColumnPosition-1];
 
         // 挿入する行番号
         var pos = searchPosition(srcMonth,srcName,targetSheet);
@@ -60,11 +60,11 @@ function moveRow(){
 //月の一致->名前の一致の順に見ていく
 function searchPosition(srcMonth,srcAuthor,targetSheet){
   // 移動先シートのデータ取得
-  var targetRange = targetSheet.getRange(1,monthPosition,targetSheet.getLastRow(),2);
+  var targetRange = targetSheet.getRange(1,monthColumnPosition,targetSheet.getLastRow(),2);
   var diffCheckData = targetRange.getValues();
 
-  let mP = monthPosition-monthPosition;
-  let nP = namePosition-monthPosition;
+  let mP = monthColumnPosition-monthColumnPosition;
+  let nP = authorColumnPosition-monthColumnPosition;
 
   for(let i=0; i < targetSheet.getLastRow(); i++){
     // もし月が空文字じゃなくて月が一致してなかったらその時点の行の一つ前の行番号を返す

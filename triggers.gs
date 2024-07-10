@@ -15,7 +15,7 @@ const authorColumnPosition = 3; // 作成者
 const titleColumnPosition  = 4; // タイトル
 
 const template_gitIdColumnPosition = 1;
-const template_NameColumnPosition  = 2;
+const template_AuthorColumnPosition  = 2;
 
 // 環境
 const enviornments = {

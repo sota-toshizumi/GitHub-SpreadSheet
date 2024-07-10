@@ -4,17 +4,11 @@ function insertIssue(sheet,data){
   var templateRowHandle  = templateSheet.getRange(1, 1, 1, templateSheet.getLastColumn());
 
   // 挿入するデータ
-  var issue       = data.issue;
-  var commentBody = issue.body;
-  var title       = issue.title;
-  var url         = issue.html_url;
-  var user        = issue.user.login;
-  var authorInf   = authorInfo(user);
-  var name        = authorInf[0];
-  var color       = authorInf[1];
-  var currentDate = new Date();
-  var month       = currentDate.getMonth() + 1;
-  var nowMonth    = month + "月";
+  var issue          = data.issue;
+  var url            = issue.html_url;
+  var user           = issue.user.login;
+  var [author, clor] = authorINfo(user);
+  var nowMonth       = (new Date().getMonth() + 1) + "月";
   
   // 進捗状況は最終に登録したlabelを反映する
   var status = '未着手';
@@ -25,11 +19,11 @@ function insertIssue(sheet,data){
   // 挿入する行の行番号
   let rowPos = topPosition;
   if(sheet.getLastRow()){
-    rowPos = searchPosition(nowMonth, name, sheet);
+    rowPos = searchPosition(nowMonth, author, sheet);
   }
   
   // コメントからログ記録の選択を抽出
-  var logToSheet = /<!-- スプレッドシートに記録するかどうか（はい: 1、いいえ: 0）: (\d) -->/.exec(commentBody);
+  var logToSheet = /<!-- スプレッドシートに記録するかどうか（はい: 1、いいえ: 0）: (\d) -->/.exec(issue.body);
 
   // スプレッドシート挿入処理
   if (logToSheet && logToSheet[1] === '1' && rowPos != -1) {
@@ -47,19 +41,19 @@ function insertIssue(sheet,data){
     // データ入力
     sheet.getRange(rowPos, idColumnPosition).setValue(issue.id);
     sheet.getRange(rowPos, monthColumnPosition).setValue(nowMonth);
-    sheet.getRange(rowPos, authorColumnPosition).setValue(name);
+    sheet.getRange(rowPos, authorColumnPosition).setValue(author);
     sheet.getRange(rowPos, statusPosition).setValue(status);
     sheet.getRange(rowPos, envColumnPosition).setValue(enviornments[data.repository.name]);
 
     // データ入力規則の貼り付け
-    sheet.getRange(rowPos, titleColumnPosition).setFormula('=HYPERLINK("' + url + '", "' + title + '")');
+    sheet.getRange(rowPos, titleColumnPosition).setFormula('=HYPERLINK("' + url + '", "' + issue.title + '")');
 
     // スタイル
     templateRowHandle.copyTo(trgRowHandle, SpreadsheetApp.CopyPasteType.PASTE_FORMAT, false);
     templateRowHandle.copyTo(trgRowHandle, SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION, false);
-    sheet.getRange(rowPos, monthColumnPosition).setBackgrounds(color);
-    sheet.getRange(rowPos, authorColumnPosition).setBackgrounds(color);
-    sheet.getRange(rowPos, idColumnPosition).setBackgrounds(color);
+    sheet.getRange(rowPos, monthColumnPosition).setBackgrounds(authorColor);
+    sheet.getRange(rowPos, authorColumnPosition).setBackgrounds(authorColor);
+    sheet.getRange(rowPos, idColumnPosition).setBackgrounds(authorColor);
   }
 }
 
@@ -67,28 +61,24 @@ function insertIssue(sheet,data){
 // 引数: githubのid
 // 返り値: buf[0] = スプレッドシートに記載する名前
 //    　　　　　　　buf[1] = その人のセルのカラー
-function authorInfo(name){
+function authorInfo(author){
   // テンプレートシートからデータ取得
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
   var range = sheet.getRange(1,template_gitIdColumnPosition,sheet.getLastRow(),1);
   var value = range.getValues();
 
-  // 該当する名前の登録があればbufNameRowを更新
-  let bufNameRow = 0;
+  // 該当する名前の登録があればbufAuthorRowを更新
+  let bufAuthorRow = 0;
   for(let i=0; i<sheet.getLastRow(); i++){
-    if(value[i] == name) bufNameRow = i + 1;
+    if(value[i] == author) bufAuthorRow = i + 1;
   }
-  // もし該当がなければ[name,#fffff]を返す
-  var bufName  = name;
-  var bufColor = "#ffffff";
-  if(bufNameRow){
-    bufName  = sheet.getRange(bufNameRow,template_NameColumnPosition).getValue();
-    bufColor = sheet.getRange(bufNameRow,template_NameColumnPosition).getBackgrounds();
+  // もし該当がなければ[author,#fffff]を返す
+  var bufAuthor  = author;
+  var bufAuthorColor = "#ffffff";
+  if(bufAuthorRow){
+    bufAuthor  = sheet.getRange(bufAuthorRow,template_AuthorColumnPosition).getValue();
+    bufAuthorColor = sheet.getRange(bufAuthorRow,template_AuthorColumnPosition).getBackgrounds();
   }
 
-  var buf=[];
-  buf[0]=bufName;
-  buf[1]=bufColor;
-  
-  return buf;
+  return [bufAuthor,bufAuthorColor];
 }

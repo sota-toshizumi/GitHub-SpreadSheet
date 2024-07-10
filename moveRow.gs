@@ -1,12 +1,12 @@
-function moveRow(){
+function moveCompletedIssuesToCompleteSheet(){
   // シートのインスタンス作成
-  var sheets = SpreadsheetApp.getActiveSpreadsheet();
-  var srcSheet = sheets.getSheetByName(srcSheetName);
-  var targetSheet = sheets.getSheetByName(targetSheetName);
+  var sheets        = SpreadsheetApp.getActiveSpreadsheet();
+  var srcSheet      = sheets.getSheetByName(srcSheetName);
+  var completeSheet = sheets.getSheetByName(completeSheetName);
   
   //　シート全体を見るためのハンドルとデータ型を取得
   var dataRange = srcSheet.getRange(1,1,srcSheet.getLastRow(),srcSheet.getLastColumn());
-  var value = dataRange.getValues();
+  var value     = dataRange.getValues();
 
   // 行を下から見ていって該当カラムがkeyWordであればシートを移動
   for(let i = srcSheet.getLastRow()-1;i > 0 ; i--){
@@ -16,23 +16,23 @@ function moveRow(){
       var srcRowHandle = srcSheet.getRange(i+1,1,1,srcSheet.getLastColumn());
 
       // 移動先のシートが空じゃなければ
-      if(targetSheet.getLastRow()){
+      if(completeSheet.getLastRow()){
         // 移動元の月と編集者
         var srcMonth = value[i][monthColumnPosition-1];
         var srcName = value[i][authorColumnPosition-1];
 
         // 挿入する行番号
-        var pos = searchPosition(srcMonth,srcName,targetSheet);
+        var pos = searchPosition(srcMonth,srcName,completeSheet);
 
         if(pos != -1){
           // 挿入
-          targetSheet.insertRowBefore(pos);
-          var targetRowHandle = targetSheet.getRange(pos,1);
+          completeSheet.insertRowBefore(pos);
+          var targetRowHandle = completeSheet.getRange(pos,1);
 
           if(pos==1){
-            targetSheet.insertRowBefore(pos);
+            completeSheet.insertRowBefore(pos);
             pos+=1;
-            var targetRowHandle = targetSheet.getRange(pos,1);
+            var targetRowHandle = completeSheet.getRange(pos,1);
           }
 
           // コピー、削除
@@ -41,8 +41,8 @@ function moveRow(){
 
         }
       }else{
-        targetSheet.insertRowBefore(2);
-        var targetRowHandle = targetSheet.getRange(2,1);
+        completeSheet.insertRowBefore(2);
+        var targetRowHandle = completeSheet.getRange(2,1);
         srcRowHandle.copyTo(targetRowHandle,SpreadsheetApp.CopyPasteType.PASTE_NORMAL,false);
         srcSheet.deleteRow(i+1);
       }

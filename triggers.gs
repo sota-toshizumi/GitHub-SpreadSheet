@@ -1,6 +1,6 @@
 const templateSheetName = "template";
 const srcSheetName      = "開発リスト"; // 使用シート
-const targetSheetName   = "完了";     // 完了移動先シート
+const completeSheetName = "完了";     // 完了移動先シート
 const keyWord           = "完了";     // keyWordであれば移動
 
 // 行
@@ -23,33 +23,35 @@ const enviornments = {
 }
 
 // ラベルの対応設定をスプレッドシートから読み取るための設定
-const tmp_StatusTitle = 'git_label';
+const tmp_StatusTitle    = 'git_label';
 const tmp_GitStatusLabel = 4;
 const tmp_StatusLabel    = 5;
 var labels = [];
 
-// 開くたびに発火されるシンプルトリガー
+// スプレッドシートを開くイベントで実行される関数
 function onOpen(e){
   setConsts();
   // 完了になっているか毎回確認
-  moveRow();
+  moveCompletedIssuesToCompleteSheet();
 
   // メニューバーに完了確認を追加
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('完了！')
-      .addItem('完了！', 'moveRow')
+      .addItem('完了！', 'moveCompletedIssuesToCompleteSheet')
       .addToUi();
 }
 
 // httpリクエストが来たら発火されるシンプルトリガー
 function doPost(e){
   setConsts();
+
   if (e == null || e.postData == null || e.postData.contents == null) {
     return;
   }
 
+  // postデータから抽出
   var payload = JSON.parse(e.postData.contents);
-  var issue = payload.issue;
+  var issue   = payload.issue;
 
   var srcSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(srcSheetName);
   if(payload.action == "opened"){

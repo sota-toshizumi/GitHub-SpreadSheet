@@ -4,11 +4,11 @@ function insertIssue(sheet,data){
   var templateRowHandle  = templateSheet.getRange(1, 1, 1, templateSheet.getLastColumn());
 
   // 挿入するデータ
-  var issue          = data.issue;
-  var url            = issue.html_url;
-  var user           = issue.user.login;
-  var [author, clor] = authorINfo(user);
-  var nowMonth       = (new Date().getMonth() + 1) + "月";
+  var issue                 = data.issue;
+  var url                   = issue.html_url;
+  var user                  = issue.user.login;
+  var [author, authorColor] = authorInfo(user);
+  var nowMonth              = (new Date().getMonth() + 1) + "月";
   
   // 進捗状況は最終に登録したlabelを反映する
   var status = '未着手';

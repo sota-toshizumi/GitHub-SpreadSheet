@@ -1,18 +1,18 @@
 const templateSheetName = "template";
-const srcSheetName = "開発リスト";  // 使用シート
-const targetSheetName = "完了"; // 移動先シート
-const keyWord = "完了"; // keyWordであれば移動
+const srcSheetName      = "開発リスト"; // 使用シート
+const targetSheetName   = "完了";     // 完了移動先シート
+const keyWord           = "完了";     // keyWordであれば移動
 
 // 行
 const topPosition = 2;
 
 // 列
-const idColumnPosition = 1;
-const envColumnPosition = 6;
-const statusPosition = 8; // 進捗
-const monthColumnPosition = 2; // 現在の月
+const idColumnPosition     = 1;
+const envColumnPosition    = 6;
+const statusPosition       = 8; // 進捗
+const monthColumnPosition  = 2; // 現在の月
 const authorColumnPosition = 3; // 作成者
-const titleColumnPosition = 4; // タイトル
+const titleColumnPosition  = 4; // タイトル
 
 const template_gitIdColumnPosition = 1;
 const template_NameColumnPosition  = 2;
@@ -25,7 +25,7 @@ const enviornments = {
 // ラベルの対応設定をスプレッドシートから読み取るための設定
 const tmp_StatusTitle = 'git_label';
 const tmp_GitStatusLabel = 4;
-const tmp_StatusLabel =5;
+const tmp_StatusLabel    = 5;
 var labels = [];
 
 // 開くたびに発火されるシンプルトリガー

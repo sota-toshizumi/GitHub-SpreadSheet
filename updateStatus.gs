@@ -43,8 +43,8 @@ function unLabel(sheet,data){
 // テンプレートの中にlabelのキーがあればその値を返す
 // なければそのまま返す
 function getLabel(label,bLabel){
-  if(label in labels){
-    return labels[label];
+  if(label in progressLabels){
+    return progressLabels[label];
   }
   return bLabel;
 }

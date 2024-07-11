@@ -59,7 +59,7 @@ function moveCompletedIssuesToCompleteSheet(){
 //月の一致->名前の一致の順に見ていく
 function searchPosition(srcMonth,srcAuthor,targetSheet){
   // 移動先シートのデータ取得
-  var targetRange = targetSheet.getRange(1,monthColumnPosition,targetSheet.getLastRow(),2);
+  var targetRange   = targetSheet.getRange(1,monthColumnPosition,targetSheet.getLastRow(),2);
   var diffCheckData = targetRange.getValues();
 
   let mP = monthColumnPosition-monthColumnPosition;
@@ -67,14 +67,14 @@ function searchPosition(srcMonth,srcAuthor,targetSheet){
 
   for(let i=0; i < targetSheet.getLastRow(); i++){
     // もし月が空文字じゃなくて月が一致してなかったらその時点の行の一つ前の行番号を返す
-    if(diffCheckData[i][mP]!="" && diffCheckData[i][mP]!=srcMonth){
+    if(diffCheckData[i][mP] != "" && diffCheckData[i][mP] != srcMonth){
       return i;
     }
     // もし月が一致していたら
-    else if(diffCheckData[i][mP]==srcMonth){
+    else if(diffCheckData[i][mP] == srcMonth){
       for(let j=i; j < targetSheet.getLastRow();j++){
         // もし名前一致してたらその時点の行番号を返す
-        if(diffCheckData[j][nP]==srcAuthor){
+        if(diffCheckData[j][nP] == srcAuthor){
           return j+1;
         }
         else if(diffCheckData[j][mP] != srcMonth){

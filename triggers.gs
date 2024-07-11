@@ -7,12 +7,12 @@ const keyWord           = "完了";      // keyWordであれば移動
 const topPosition = 2;
 
 // 列
-const idColumnPosition          = 1; // issueId
-const envColumnPosition         = 6; // 修正の環境
-const statusLabelColumnPosition = 8; // 進捗
-const monthColumnPosition       = 2; // 現在の月
-const authorColumnPosition      = 3; // 作成者
-const titleColumnPosition       = 4; // タイトル
+const idColumnPosition            = 1; // issueId
+const envColumnPosition           = 6; // 修正の環境
+const progressLabelColumnPosition = 8; // 進捗
+const monthColumnPosition         = 2; // 現在の月
+const authorColumnPosition        = 3; // 作成者
+const titleColumnPosition         = 4; // タイトル
 
 // 環境
 const enviornments = {
@@ -20,7 +20,7 @@ const enviornments = {
 }
 
 // ラベルの対応設定をスプレッドシートから読み取るための設定
-var labels = [];
+var progressLabels = [];
 const template_labelTitle                     = 'git_label';
 const template_gitProgressLabelColPos = 4;
 const template_progressLabelColPos    = 5;
@@ -57,7 +57,7 @@ function doPost(e){
     insertIssue(srcSheet,payload);
   }
   else if(payload.action == "labeled"){
-    updateStatus(srcSheet,payload);
+    updateProgressLabel(srcSheet,payload);
   }
   else if(payload.action == "unlabeled"){
     unLabel(srcSheet,payload);
@@ -66,7 +66,7 @@ function doPost(e){
 
 // スプレッドシートから必要になる定数を宣言する関数
 // 宣言定数　　　　　　　　　　　　: 詳細
-// statuslabels : 進捗状況ラベル(github上での進捗状況ラベルと)
+// progressLabels : 進捗状況ラベル(github上での進捗状況ラベルと)
 function setConsts(){
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
 
@@ -75,7 +75,7 @@ function setConsts(){
   var targertIndex = template_progressLabelColPos-template_gitProgressLabelColPos;
   for(var key in labelValue){
     if(labelValue[key][0] != "" && labelValue[key][0] != template_labelTitle){
-      labels[labelValue[key][0]] = labelValue[key][targertIndex];
+      progressLabels[labelValue[key][0]] = labelValue[key][targertIndex];
     }
   }
 }

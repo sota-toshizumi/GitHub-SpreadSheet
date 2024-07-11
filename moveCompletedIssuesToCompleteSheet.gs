@@ -11,7 +11,7 @@ function moveCompletedIssuesToCompleteSheet(){
   // 行を下から見ていって該当カラムがkeyWordであればシートを移動
   for(let i = srcSheet.getLastRow()-1;i >= 0 ; i--){
     //該当セルが目的のキーワードであれば..
-    if(value[i][statusLabelColumnPosition-1] === keyWord){    
+    if(value[i][progressLabelColumnPosition-1] === keyWord){    
       //行のハンドル取得
       var srcRowHandle = srcSheet.getRange(i+1,1,1,srcSheet.getLastColumn());
 

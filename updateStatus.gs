@@ -1,5 +1,5 @@
 // 進捗状況の更新　(github上のラベル更新)
-function updateStatus(sheet,data){
+function updateProgressLabel(sheet,data){
   // issueIdの取得
   const issueId = data.issue.id;
   // 行を上から見ていく
@@ -9,9 +9,9 @@ function updateStatus(sheet,data){
     // idが一致
     if(id === issueId){
       // 現在のステータスを取得
-      var bStatus = sheet.getRange(i,statusLabelColumnPosition).getValue();
+      var bStatus = sheet.getRange(i,progressLabelColumnPosition).getValue();
       // テンプレートにラベルに対応する情報があれば更新、なければ変更なし
-      sheet.getRange(i,statusLabelColumnPosition).setValue(getLabel(data.label.name,bStatus));
+      sheet.getRange(i,progressLabelColumnPosition).setValue(getLabel(data.label.name,bStatus));
       return 0;
     }
   }
@@ -30,10 +30,10 @@ function unLabel(sheet,data){
     // idが一致すれば一番最近つけられたラベルに対応する進捗状況に更新する。なければ"未着手"
     if(id === issueId){  
       var status = '未着手';
-      for(var key in data.issue.labels){
-        status = getLabel(data.issue.labels[key].name,status);
+      for(var key in data.issue.progressLabels){
+        status = getLabel(data.issue.progressLabels[key].name,status);
       }
-      sheet.getRange(i,statusLabelColumnPosition).setValue(status);
+      sheet.getRange(i,progressLabelColumnPosition).setValue(status);
       return 0;
     }
   }

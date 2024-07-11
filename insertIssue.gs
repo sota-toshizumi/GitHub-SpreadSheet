@@ -12,8 +12,8 @@ function insertIssue(sheet,data){
   
   // 進捗状況は最終に登録したlabelを反映する
   var status = '未着手';
-  for(var key in data.issue.labels){
-    status = getLabel(data.issue.labels[key].name, status);
+  for(var key in data.issue.progressLabels){
+    status = getLabel(data.issue.progressLabels[key].name, status);
   }
 
   // 挿入する行の行番号
@@ -48,7 +48,7 @@ function insertIssue(sheet,data){
     sheet.getRange(rowPos, idColumnPosition).setValue(issue.id);
     sheet.getRange(rowPos, monthColumnPosition).setValue(nowMonth);
     sheet.getRange(rowPos, authorColumnPosition).setValue(author);
-    sheet.getRange(rowPos, statusLabelColumnPosition).setValue(status);
+    sheet.getRange(rowPos, progressLabelColumnPosition).setValue(status);
     sheet.getRange(rowPos, envColumnPosition).setValue(enviornments[data.repository.name]);
 
     // データ入力規則の貼り付け

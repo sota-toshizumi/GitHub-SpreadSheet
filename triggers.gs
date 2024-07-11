@@ -9,7 +9,7 @@ const topPosition = 2;
 // 列
 const idColumnPosition            = 1; // issueId
 const envColumnPosition           = 6; // 修正の環境
-const progressLabelColumnPosition = 8; // 進捗
+const progressLabelColumnPosition = 8; // 進捗状況ラベル
 const monthColumnPosition         = 2; // 現在の月
 const authorColumnPosition        = 3; // 作成者
 const titleColumnPosition         = 4; // タイトル

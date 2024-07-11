@@ -20,10 +20,10 @@ const enviornments = {
 }
 
 // ラベルの対応設定をスプレッドシートから読み取るための設定
+var labels = [];
 const template_labelTitle                     = 'git_label';
 const template_gitProgressLabelColPos = 4;
 const template_progressLabelColPos    = 5;
-var labels = [];
 const template_gitIdColumnPosition    = 1;
 const template_AuthorColumnPosition   = 2;
 

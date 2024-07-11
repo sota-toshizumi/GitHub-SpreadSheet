@@ -10,7 +10,7 @@ function moveCompletedIssuesToCompleteSheet(){
 
   // 行を下から見ていって該当カラムがkeyWordであればシートを移動
   for(let i = srcSheet.getLastRow()-1;i >= 0 ; i--){
-    //該当セルが目的のキーワードであれば..
+    //該当セルが目的のキーワードであれば行を完了シートに移動
     if(value[i][progressLabelColumnPosition-1] === keyWord){    
       //行のハンドル取得
       var srcRowHandle = srcSheet.getRange(i+1,1,1,srcSheet.getLastColumn());
@@ -58,31 +58,35 @@ function moveCompletedIssuesToCompleteSheet(){
 //　返り値: 挿入したい行番号(＊配列のキーではなくスプレッドシート上の行番号)
 //月の一致->名前の一致の順に見ていく
 function searchPosition(srcMonth,srcAuthor,targetSheet){
-  // 移動先シートのデータ取得
-  var targetRange   = targetSheet.getRange(1,monthColumnPosition,targetSheet.getLastRow(),2);
-  var diffCheckData = targetRange.getValues();
+  // 入力先シートが空じゃなければ
+  if(targetSheet.getLastRow()){
+      // 移動先シートのデータ取得
+    var targetRange   = targetSheet.getRange(1,monthColumnPosition,targetSheet.getLastRow(),2);
+    var diffCheckData = targetRange.getValues();
 
-  // 配列で扱えるキーに変換
-  let monthIndex = monthColumnPosition-monthColumnPosition;
-  let nameIndex  = authorColumnPosition-monthColumnPosition;
+    // 配列で扱えるキーに変換
+    let monthIndex = monthColumnPosition-monthColumnPosition;
+    let nameIndex  = authorColumnPosition-monthColumnPosition;
 
-  for(let i=0; i < targetSheet.getLastRow(); i++){
-    // もし月が空文字じゃなくて月が一致してなかったらその時点の行の一つ前の行番号を返す
-    if(diffCheckData[i][monthIndex] != "" && diffCheckData[i][monthIndex] != srcMonth){
-      return i;
-    }
-    // もし月が一致していたら
-    else if(diffCheckData[i][monthIndex] == srcMonth){
-      for(let j=i; j < targetSheet.getLastRow();j++){
-        // もし名前一致してたらその時点の行番号を返す
-        if(diffCheckData[j][nameIndex] == srcAuthor){
-          return j+1;
-        }
-        else if(diffCheckData[j][monthIndex] != srcMonth){
-          return j+1;
+    for(let i=0; i < targetSheet.getLastRow(); i++){
+      // もし月が空文字じゃなくて月が一致してなかったらその時点の行の一つ前の行番号を返す
+      if(diffCheckData[i][monthIndex] != "" && diffCheckData[i][monthIndex] != srcMonth){
+        return i;
+      }
+      // もし月が一致していたら
+      else if(diffCheckData[i][monthIndex] == srcMonth){
+        for(let j=i; j < targetSheet.getLastRow();j++){
+          // もし名前一致してたらその時点の行番号を返す
+          if(diffCheckData[j][nameIndex] == srcAuthor){
+            return j+1;
+          }
+          else if(diffCheckData[j][monthIndex] != srcMonth){
+            return j+1;
+          }
         }
       }
     }
+  }else{
+    return topPosition;
   }
-  return targetRange.getLastRow()+1;
 }

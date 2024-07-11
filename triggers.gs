@@ -49,18 +49,18 @@ function doPost(e){
   }
 
   // postデータから抽出
-  var payload = JSON.parse(e.postData.contents);
-  var issue   = payload.issue;
+  var data    = JSON.parse(e.postData.contents);
+  var issue   = data.issue;
 
   var srcSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(srcSheetName);
-  if(payload.action == "opened"){
-    insertIssue(srcSheet,payload);
+  if(data.action == "opened"){
+    insertIssue(srcSheet, data);
   }
-  else if(payload.action == "labeled"){
-    updateProgressLabel(srcSheet,payload);
+  else if(data.action == "labeled"){
+    updateProgressLabel(srcSheet, data);
   }
-  else if(payload.action == "unlabeled"){
-    unLabel(srcSheet,payload);
+  else if(data.action == "unlabeled"){
+    unLabel(srcSheet, data);
   }
 }
 

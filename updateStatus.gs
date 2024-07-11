@@ -28,10 +28,10 @@ function unLabel(sheet,data){
     var range = sheet.getRange(i,idColumnPosition);
     var id    = range.getValue();
     // idが一致すれば一番最近つけられたラベルに対応する進捗状況に更新する。なければ"未着手"
-    if(id === issueId){  
+    if(id === issueId){ 
       var status = '未着手';
-      for(var key in data.issue.progressLabels){
-        status = getLabel(data.issue.progressLabels[key].name,status);
+      for(var key in data.issue.labels){
+        status = getLabel(data.issue.labels[key].name, status);
       }
       sheet.getRange(i,progressLabelColumnPosition).setValue(status);
       return 0;

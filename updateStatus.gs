@@ -9,9 +9,9 @@ function updateStatus(sheet,data){
     // idが一致
     if(id === issueId){
       // 現在のステータスを取得
-      var bStatus = sheet.getRange(i,statusPosition).getValue();
+      var bStatus = sheet.getRange(i,statusLabelColumnPosition).getValue();
       // テンプレートにラベルに対応する情報があれば更新、なければ変更なし
-      sheet.getRange(i,statusPosition).setValue(getLabel(data.label.name,bStatus));
+      sheet.getRange(i,statusLabelColumnPosition).setValue(getLabel(data.label.name,bStatus));
       return 0;
     }
   }
@@ -33,7 +33,7 @@ function unLabel(sheet,data){
       for(var key in data.issue.labels){
         status = getLabel(data.issue.labels[key].name,status);
       }
-      sheet.getRange(i,statusPosition).setValue(status);
+      sheet.getRange(i,statusLabelColumnPosition).setValue(status);
       return 0;
     }
   }

@@ -48,7 +48,7 @@ function insertIssue(sheet,data){
     sheet.getRange(rowPos, idColumnPosition).setValue(issue.id);
     sheet.getRange(rowPos, monthColumnPosition).setValue(nowMonth);
     sheet.getRange(rowPos, authorColumnPosition).setValue(author);
-    sheet.getRange(rowPos, statusPosition).setValue(status);
+    sheet.getRange(rowPos, statusLabelColumnPosition).setValue(status);
     sheet.getRange(rowPos, envColumnPosition).setValue(enviornments[data.repository.name]);
 
     // データ入力規則の貼り付け

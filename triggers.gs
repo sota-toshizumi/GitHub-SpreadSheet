@@ -1,18 +1,18 @@
-const templateSheetName = "template";
-const srcSheetName      = "開発リスト"; // 使用シート
-const completeSheetName = "完了";     // 完了移動先シート
-const keyWord           = "完了";     // keyWordであれば移動
+const templateSheetName = "template";  // テンプレートなど記載シート
+const srcSheetName      = "開発リスト";   // 使用シート
+const completeSheetName = "完了";      // 開発完了移動先シート
+const keyWord           = "完了";      // keyWordであれば移動
 
 // 行
 const topPosition = 2;
 
 // 列
-const idColumnPosition     = 1;
-const envColumnPosition    = 6;
-const statusPosition       = 8; // 進捗
-const monthColumnPosition  = 2; // 現在の月
-const authorColumnPosition = 3; // 作成者
-const titleColumnPosition  = 4; // タイトル
+const idColumnPosition          = 1; // issueId
+const envColumnPosition         = 6; // 修正の環境
+const statusLabelColumnPosition = 8; // 進捗
+const monthColumnPosition       = 2; // 現在の月
+const authorColumnPosition      = 3; // 作成者
+const titleColumnPosition       = 4; // タイトル
 
 const template_gitIdColumnPosition = 1;
 const template_AuthorColumnPosition  = 2;
@@ -23,9 +23,9 @@ const enviornments = {
 }
 
 // ラベルの対応設定をスプレッドシートから読み取るための設定
-const tmp_StatusTitle    = 'git_label';
-const tmp_GitStatusLabel = 4;
-const tmp_StatusLabel    = 5;
+const template_labelTitle                     = 'git_label';
+const template_gitProgressLabelColPos = 4;
+const template_progressLabelColPos    = 5;
 var labels = [];
 
 // スプレッドシートを開くイベントで実行される関数
@@ -65,24 +65,18 @@ function doPost(e){
   }
 }
 
-// スプレッドシートから必要になる定数を返す関数
+// スプレッドシートから必要になる定数を宣言する関数
+// 宣言定数　　　　　　　　　　　　: 詳細
+// statuslabels : 進捗状況ラベル(github上での進捗状況ラベルと)
 function setConsts(){
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
 
   // ラベルの対応をスプレッドシートから読み込む
-  var labelValue = sheet.getRange(2,tmp_GitStatusLabel,sheet.getLastRow(),2).getValues();
+  var labelValue   = sheet.getRange(2, template_gitProgressLabelColPos, sheet.getLastRow(), 2).getValues();
+  var targertIndex = template_progressLabelColPos-template_gitProgressLabelColPos;
   for(var key in labelValue){
-    if(labelValue[key][0] != "" && labelValue[key][0] != tmp_StatusTitle){
-      labels[labelValue[key][0]] = labelValue[key][1];
+    if(labelValue[key][0] != "" && labelValue[key][0] != template_labelTitle){
+      labels[labelValue[key][0]] = labelValue[key][targertIndex];
     }
   }
-
-  /*
-  var envValue = sheet.getRange(2,tmp_gitRepository,sheet.getLastRow(),2).getValues();
-  for(var key in envValue){
-    if(envValue[key][0] != "" && envValue[key][0] != tmp_enviornmentTitle){
-      enviornments[envValue[key][0]] = envValue[key][1];
-    }
-  }
-  */
 }

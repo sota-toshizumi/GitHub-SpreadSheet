@@ -14,9 +14,6 @@ const monthColumnPosition       = 2; // 現在の月
 const authorColumnPosition      = 3; // 作成者
 const titleColumnPosition       = 4; // タイトル
 
-const template_gitIdColumnPosition = 1;
-const template_AuthorColumnPosition  = 2;
-
 // 環境
 const enviornments = {
   "Sample-issue-" : "www",
@@ -27,6 +24,8 @@ const template_labelTitle                     = 'git_label';
 const template_gitProgressLabelColPos = 4;
 const template_progressLabelColPos    = 5;
 var labels = [];
+const template_gitIdColumnPosition    = 1;
+const template_AuthorColumnPosition   = 2;
 
 // スプレッドシートを開くイベントで実行される関数
 function onOpen(e){

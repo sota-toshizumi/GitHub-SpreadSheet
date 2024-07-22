@@ -15,34 +15,17 @@ function insertIssue(sheet,data){
   for(var key in data.issue.labels){
     status = getLabel(data.issue.labels[key].name, status);
   }
-
-  // 挿入する行の行番号
-  let rowPos = topRowPosition;
-  if(sheet.getLastRow()){
-    rowPos = searchPosition(nowMonth, author, sheet);
-  }
   
   // コメントからログ記録の選択を抽出
   var logToSheet = /<!-- スプレッドシートに記録するかどうか（はい: 1、いいえ: 0）: (\d) -->/.exec(issue.body);
 
   // スプレッドシート挿入処理
   if (logToSheet && logToSheet[1] === '1' && rowPos != -1) {
-    // 挿入する行が一番上だったら一行追加する(常に一番上は空行)
-    if(rowPos == 0){
-      rowPos += 1;
-      sheet.insertRowBefore(rowPos);
-      sheet.getRange(rowPos,1, 1, sheet.getLastRow()).setBackground("#ffffff");
-    }
+    // 挿入する行の特定
+    var rowPos = searchPosition(nowMonth, author, sheet);
 
-    if(rowPos == 1){
-      rowPos += 1;
-      sheet.insertRowBefore(rowPos);
-      sheet.getRange(rowPos,1, 1, sheet.getLastRow()).setBackground("#ffffff");
-    }
-
-    // 新しい行を追加
-    var trgRowHandle = sheet.getRange(rowPos, 1);
-    sheet.insertRowBefore(rowPos);
+    // rowPosが上限を超していたら補正
+    rowPos = insertRows(rowPos, sheet);
 
     // データ入力
     sheet.getRange(rowPos, idColumnPosition).setValue(issue.id);
@@ -55,6 +38,7 @@ function insertIssue(sheet,data){
     sheet.getRange(rowPos, titleColumnPosition).setFormula('=HYPERLINK("' + url + '", "' + issue.title + '")');
 
     // スタイル
+    var trgRowHandle = sheet.getRange(rowPos, 1);
     templateRowHandle.copyTo(trgRowHandle, SpreadsheetApp.CopyPasteType.PASTE_FORMAT, false);
     templateRowHandle.copyTo(trgRowHandle, SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION, false);
     // セルにカラーをつける

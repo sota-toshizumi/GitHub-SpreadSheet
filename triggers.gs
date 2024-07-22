@@ -4,7 +4,7 @@ const completeSheetName = "完了";      // 開発完了移動先シート
 const keyWord           = "完了";      // keyWordであれば移動
 
 // 行
-const topPosition = 2;
+const topRowPosition = 3;
 
 // 列
 const idColumnPosition            = 1; // issueId

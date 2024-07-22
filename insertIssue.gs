@@ -17,7 +17,7 @@ function insertIssue(sheet,data){
   }
 
   // 挿入する行の行番号
-  let rowPos = topPosition;
+  let rowPos = topRowPosition;
   if(sheet.getLastRow()){
     rowPos = searchPosition(nowMonth, author, sheet);
   }

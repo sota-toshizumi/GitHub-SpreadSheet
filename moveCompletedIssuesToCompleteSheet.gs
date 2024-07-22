@@ -8,53 +8,34 @@ function moveCompletedIssuesToCompleteSheet(){
   var dataRange = srcSheet.getRange(1,1,srcSheet.getLastRow(),srcSheet.getLastColumn());
   var value     = dataRange.getValues();
 
-  // 行を下から見ていって該当カラムがkeyWordであればシートを移動
+  // 行を下から見ていく
   for(let i = srcSheet.getLastRow()-1;i >= 0 ; i--){
     //該当セルが目的のキーワードであれば行を完了シートに移動
     if(value[i][progressLabelColumnPosition-1] === keyWord){    
-      //行のハンドル取得
+      // 行のハンドル取得
       var srcRowHandle = srcSheet.getRange(i+1,1,1,srcSheet.getLastColumn());
+    
+      // 移動元の月と編集者
+      var srcMonth = value[i][monthColumnPosition-1];
+      var srcName  = value[i][authorColumnPosition-1];
 
-      // 移動先のシートが空じゃなければ
-      if(completeSheet.getLastRow()){
-        // 移動元の月と編集者
-        var srcMonth = value[i][monthColumnPosition-1];
-        var srcName  = value[i][authorColumnPosition-1];
+      // 挿入する行番号
+      var rowPos = searchPosition(srcMonth,srcName,completeSheet);
 
-        // 挿入する行番号
-        var pos = searchPosition(srcMonth,srcName,completeSheet);
+      // 挿入
+      rowPos = insertRows(rowPos, completeSheet);
 
-        if(pos != -1){
-          // 挿入
-          completeSheet.insertRowBefore(pos);
-          var targetRowHandle = completeSheet.getRange(pos,1);
-
-          if(pos==1){
-            completeSheet.insertRowBefore(pos);
-            pos+=1;
-            var targetRowHandle = completeSheet.getRange(pos,1);
-          }
-
-          // コピー、削除
-          srcRowHandle.copyTo(targetRowHandle,SpreadsheetApp.CopyPasteType.PASTE_NORMAL,false);
-          srcSheet.deleteRow(i+1);
-
-        }
-      }else{
-        completeSheet.insertRowBefore(2);
-        var targetRowHandle = completeSheet.getRange(2,1);
-        srcRowHandle.copyTo(targetRowHandle,SpreadsheetApp.CopyPasteType.PASTE_NORMAL,false);
-        srcSheet.deleteRow(i+1);
-      }
-      
+      // コピー、削除
+      srcRowHandle.copyTo(completeSheet.getRange(rowPos,1), SpreadsheetApp.CopyPasteType.PASTE_NORMAL, false);
+      srcSheet.deleteRow( i+1 );
     }
   }
 }
 
 // 挿入する場所を特定する関数
-// 引数: srcMonth=入力するデータの月
-//    　　　　　srcAuthor=入力するデータの名前
-//      　targetSheet=入力先シート
+// 引数: srcMonth　　　　　　　=　入力するデータの月
+//    　　　　　srcAuthor　　　　　=　入力するデータの名前
+//      　targetSheet　=　入力先シート
 //　返り値: 挿入したい行番号(＊配列のキーではなくスプレッドシート上の行番号)
 //月の一致->名前の一致の順に見ていく
 function searchPosition(srcMonth,srcAuthor,targetSheet){
@@ -87,6 +68,19 @@ function searchPosition(srcMonth,srcAuthor,targetSheet){
       }
     }
   }else{
-    return topPosition;
+    return topRowPosition;
   }
+}
+
+// あらかじめ設定している行の上限を超えないように行を挿入する関数
+// 引数  : rowPos　 　　　　　　　　   　　= 挿入予定の行
+//        targetSheet     = 挿入先シート
+// 返り値 : rowPos         = 補正後の行番号
+function insertRows(rowPos, targetSheet){
+  while(rowPos < topRowPosition){
+    targetSheet.insertRowBefore(1);
+    rowPos += 1;
+  }
+  targetSheet.insertRowBefore( Math.max(1,rowPos) );
+  return rowPos;
 }

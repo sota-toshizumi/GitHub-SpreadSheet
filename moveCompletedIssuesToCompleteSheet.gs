@@ -72,13 +72,14 @@ function searchPosition(srcMonth,srcAuthor,targetSheet){
   }
 }
 
-// あらかじめ設定している行の上限を超えないように行を挿入する関数
+// 設定している行の上限を超えないように行を挿入する関数
 // 引数  : rowPos　 　　　　　　　　   　　= 挿入予定の行
 //        targetSheet     = 挿入先シート
 // 返り値 : rowPos         = 補正後の行番号
 function insertRows(rowPos, targetSheet){
   while(rowPos < topRowPosition){
     targetSheet.insertRowBefore(1);
+    targetSheet.getRange(1,1, 1, targetSheet.getLastRow()).setBackground("#ffffff");
     rowPos += 1;
   }
   targetSheet.insertRowBefore( Math.max(1,rowPos) );

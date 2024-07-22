@@ -11,9 +11,9 @@ function insertIssue(sheet,data){
   var nowMonth              = (new Date().getMonth() + 1) + "月";
   
   // 進捗状況は最終に登録したlabelを反映する
-  var status = '未着手';
+  var progressLabel = initialProgressLabel;
   for(var key in data.issue.labels){
-    status = getLabel(data.issue.labels[key].name, status);
+    progressLabel = getProgressLabel(data.issue.labels[key].name, progressLabel);
   }
   
   // コメントからログ記録の選択を抽出
@@ -31,7 +31,7 @@ function insertIssue(sheet,data){
     sheet.getRange(rowPos, idColumnPosition).setValue(issue.id);
     sheet.getRange(rowPos, monthColumnPosition).setValue(nowMonth);
     sheet.getRange(rowPos, authorColumnPosition).setValue(author);
-    sheet.getRange(rowPos, progressLabelColumnPosition).setValue(status);
+    sheet.getRange(rowPos, progressLabelColumnPosition).setValue(progressLabel);
     sheet.getRange(rowPos, envColumnPosition).setValue(enviornments[data.repository.name]);
 
     // データ入力規則の貼り付け

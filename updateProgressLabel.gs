@@ -11,7 +11,7 @@ function updateProgressLabel(sheet,data){
       // 現在のステータスを取得
       var bStatus = sheet.getRange(i,progressLabelColumnPosition).getValue();
       // テンプレートにラベルに対応する情報があれば更新、なければ変更なし
-      sheet.getRange(i,progressLabelColumnPosition).setValue(getLabel(data.label.name,bStatus));
+      sheet.getRange(i,progressLabelColumnPosition).setValue(getProgressLabel(data.label.name,bStatus));
       return 0;
     }
   }
@@ -19,7 +19,7 @@ function updateProgressLabel(sheet,data){
 }
 
 // unLabelのリクエスト
-function unLabel(sheet,data){
+function removeProgressLabel(sheet,data){
   // issueのid取得
   const issueId = data.issue.id;
 
@@ -29,20 +29,23 @@ function unLabel(sheet,data){
     var id    = range.getValue();
     // idが一致すれば一番最近つけられたラベルに対応する進捗状況に更新する。なければ"未着手"
     if(id === issueId){ 
-      var status = '未着手';
+      var progressLabel = initialProgressLabel;
       for(var key in data.issue.labels){
-        status = getLabel(data.issue.labels[key].name, status);
+        progressLabel = getProgressLabel(data.issue.labels[key].name, progressLabel);
       }
-      sheet.getRange(i,progressLabelColumnPosition).setValue(status);
+      sheet.getRange(i,progressLabelColumnPosition).setValue(progressLabel);
       return 0;
     }
   }
   return 0;
 }
 
-// テンプレートの中にlabelのキーがあればその値を返す
-// なければそのまま返す
-function getLabel(label,bLabel){
+// 進捗テンプレートの中にlabelと同一のキーがあるかチェック
+// 引数 :  label = 検索したいlabel名
+//.       blabel = テンプレートに存在しなかった場合のlabel
+// 返り値: progressLabels[label] = テンプレートに対応した進捗情報
+//        blabel = テンプレートに存在しなかった場合のlabel
+function getProgressLabel(label,bLabel){
   if(label in progressLabels){
     return progressLabels[label];
   }

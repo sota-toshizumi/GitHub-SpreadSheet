@@ -14,14 +14,17 @@ const monthColumnPosition         = 2; // 現在の月
 const authorColumnPosition        = 3; // 作成者
 const titleColumnPosition         = 4; // タイトル
 
+// 初期設定
 // 環境
 const enviornments = {
   "Sample-issue-" : "www",
 }
+// ラベル
+const initialProgressLabel = '未着手';
 
 // ラベルの対応設定をスプレッドシートから読み取るための設定
 var progressLabels = [];
-const template_labelTitle                     = 'git_label';
+const template_labelTitle             = 'git_label';
 const template_gitProgressLabelColPos = 4;
 const template_progressLabelColPos    = 5;
 const template_gitIdColumnPosition    = 1;
@@ -60,7 +63,7 @@ function doPost(e){
     updateProgressLabel(srcSheet, data);
   }
   else if(data.action == "unlabeled"){
-    unLabel(srcSheet, data);
+    removeProgressLabel(srcSheet, data);
   }
 }
 

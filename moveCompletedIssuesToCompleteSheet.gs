@@ -10,6 +10,7 @@ function moveCompletedIssuesToCompleteSheet(){
 
   // 行を下から見ていく
   for(let i = srcSheet.getLastRow()-1;i >= 0 ; i--){
+    
     //該当セルが目的のキーワードであれば行を完了シートに移動
     if(value[i][progressLabelColumnPosition-1] === keyWord){    
       // 行のハンドル取得

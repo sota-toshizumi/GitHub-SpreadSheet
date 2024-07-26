@@ -34,10 +34,9 @@ function removeProgressLabel(sheet,data){
         progressLabel = getProgressLabel(data.issue.labels[key].name, progressLabel);
       }
       sheet.getRange(i,progressLabelColumnPosition).setValue(progressLabel);
-      return 0;
+      break;
     }
   }
-  return 0;
 }
 
 // 進捗テンプレートの中にlabelと同一のキーがあるかチェック

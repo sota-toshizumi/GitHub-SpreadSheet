@@ -55,7 +55,7 @@ function insertIssue(sheet,data){
 function getAuthorInfo(author){
   // テンプレートシートからデータ取得
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
-  var range = sheet.getRange(1,template_gitIdColumnPosition,sheet.getLastRow(),1);
+  var range = sheet.getRange(1,templateGitIdColumnPosition,sheet.getLastRow(),1);
   var value = range.getValues();
 
   // 該当する名前の登録があればbufAuthorRowを更新
@@ -68,8 +68,8 @@ function getAuthorInfo(author){
   var bufAuthor      = author;
   var bufAuthorColor = "#ffffff";
   if(bufAuthorRow){
-    bufAuthor      = sheet.getRange(bufAuthorRow,template_AuthorColumnPosition).getValue();
-    bufAuthorColor = sheet.getRange(bufAuthorRow,template_AuthorColumnPosition).getBackgrounds();
+    bufAuthor      = sheet.getRange(bufAuthorRow,templateAuthorColumnPosition).getValue();
+    bufAuthorColor = sheet.getRange(bufAuthorRow,templateAuthorColumnPosition).getBackgrounds();
   }
 
   return [bufAuthor,bufAuthorColor];

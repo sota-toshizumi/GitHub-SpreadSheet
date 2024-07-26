@@ -24,11 +24,11 @@ const initialProgressLabel = '未着手';
 
 // ラベルの対応設定をスプレッドシートから読み取るための設定
 var progressLabels = [];
-const template_labelTitle             = 'git_label';
-const template_gitProgressLabelColPos = 4;
-const template_progressLabelColPos    = 5;
-const template_gitIdColumnPosition    = 1;
-const template_AuthorColumnPosition   = 2;
+const templateLabelTitle             = 'git_label';
+const templateGitProgressLabelColPos = 4;
+const templateProgressLabelColPos    = 5;
+const templateGitIdColumnPosition    = 1;
+const templateAuthorColumnPosition   = 2;
 
 // スプレッドシートを開くイベントで実行される関数
 function onOpen(e){
@@ -74,10 +74,10 @@ function setConsts(){
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
 
   // ラベルの対応をスプレッドシートから読み込む
-  var labelValue   = sheet.getRange(2, template_gitProgressLabelColPos, sheet.getLastRow(), 2).getValues();
-  var targertIndex = template_progressLabelColPos-template_gitProgressLabelColPos;
+  var labelValue   = sheet.getRange(2, templateGitProgressLabelColPos, sheet.getLastRow(), 2).getValues();
+  var targertIndex = templateProgressLabelColPos-templateGitProgressLabelColPos;
   for(var key in labelValue){
-    if(labelValue[key][0] != "" && labelValue[key][0] != template_labelTitle){
+    if(labelValue[key][0] != "" && labelValue[key][0] != templateLabelTitle){
       progressLabels[labelValue[key][0]] = labelValue[key][targertIndex];
     }
   }

@@ -24,7 +24,7 @@ function moveCompletedIssuesToCompleteSheet(){
       var rowPos = searchPosition(srcMonth,srcName,completeSheet);
 
       // 挿入
-      rowPos = insertRows(rowPos, completeSheet);
+      rowPos = insertRows(rowPos, completeSheet, topRowPosition, 1);
 
       // コピー、削除
       srcRowHandle.copyTo(completeSheet.getRange(rowPos,1), SpreadsheetApp.CopyPasteType.PASTE_NORMAL, false);
@@ -51,23 +51,26 @@ function searchPosition(srcMonth,srcAuthor,targetSheet){
     let nameIndex  = authorColumnPosition-monthColumnPosition;
 
     for(let i=0; i < targetSheet.getLastRow(); i++){
-      // もし月が空文字じゃなくて月が一致してなかったらその時点の行の一つ前の行番号を返す
-      if(diffCheckData[i][monthIndex] != "" && diffCheckData[i][monthIndex] != srcMonth){
-        return i;
-      }
-      // もし月が一致していたら
-      else if(diffCheckData[i][monthIndex] == srcMonth){
-        for(let j=i; j < targetSheet.getLastRow();j++){
-          // もし名前一致してたらその時点の行番号を返す
-          if(diffCheckData[j][nameIndex] == srcAuthor){
-            return j+1;
-          }
-          else if(diffCheckData[j][monthIndex] != srcMonth){
-            return j+1;
+      if(typeof diffCheckData[i][monthIndex] === 'string' || typeof diffCheckData[i][monthIndex] === 'integer'){
+          // もし月が空文字じゃなくて月が一致してなかったらその時点の行の一つ前の行番号を返す
+        if(diffCheckData[i][monthIndex] != "" && diffCheckData[i][monthIndex] != srcMonth){
+          return i;
+        }
+        // もし月が一致していたら
+        else if(diffCheckData[i][monthIndex] == srcMonth){
+          for(let j=i; j < targetSheet.getLastRow();j++){
+            // もし名前一致してたらその時点の行番号を返す
+            if(diffCheckData[j][nameIndex] == srcAuthor){
+              return j+1;
+            }
+            else if(diffCheckData[j][monthIndex] != srcMonth){
+              return j+1;
+            }
           }
         }
       }
     }
+    return topRowPosition;
   }else{
     return topRowPosition;
   }
@@ -77,10 +80,12 @@ function searchPosition(srcMonth,srcAuthor,targetSheet){
 // 引数  : rowPos　 　　　　　　　　   　　= 挿入予定の行
 //        targetSheet     = 挿入先シート
 // 返り値 : rowPos         = 補正後の行番号
-function insertRows(rowPos, targetSheet){
+function insertRows(rowPos, targetSheet, topRowPosition, insertRowsPosition){
+  insertRowsPosition = Math.max( insertRowsPosition, 0);
   while(rowPos < topRowPosition){
-    targetSheet.insertRowBefore(1);
-    targetSheet.getRange(1,1, 1, targetSheet.getLastRow()).setBackground("#ffffff");
+    targetSheet.insertRowBefore(insertRowsPosition);
+    targetSheet.getRange(insertRowsPosition, 1, 1, targetSheet.getLastColumn()).setBackground("#ffffff");
+    targetSheet.getRange(insertRowsPosition, 1, 1, targetSheet.getLastColumn()).clearDataValidations();
     rowPos += 1;
   }
   targetSheet.insertRowBefore( Math.max(1,rowPos) );

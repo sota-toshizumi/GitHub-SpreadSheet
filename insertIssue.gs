@@ -25,7 +25,7 @@ function insertIssue(sheet,data){
     var rowPos = searchPosition(nowMonth, author, sheet);
 
     // rowPosが上限を超していたら補正
-    rowPos = insertRows(rowPos, sheet);
+    rowPos = insertRows(rowPos, sheet, srcTopRowPosition, rowPos);
 
     // データ入力
     sheet.getRange(rowPos, idColumnPosition).setValue(issue.id);
@@ -41,10 +41,12 @@ function insertIssue(sheet,data){
     var trgRowHandle = sheet.getRange(rowPos, 1);
     templateRowHandle.copyTo(trgRowHandle, SpreadsheetApp.CopyPasteType.PASTE_FORMAT, false);
     templateRowHandle.copyTo(trgRowHandle, SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION, false);
+    defaultRowHeight = templateSheet.getRowHeight(1);
     // セルにカラーをつける
     sheet.getRange(rowPos, monthColumnPosition).setBackgrounds(authorColor);
     sheet.getRange(rowPos, authorColumnPosition).setBackgrounds(authorColor);
     sheet.getRange(rowPos, idColumnPosition).setBackgrounds(authorColor);
+    sheet.setRowHeight(rowPos, defaultRowHeight);
   }
 }
 

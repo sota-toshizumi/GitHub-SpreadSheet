@@ -1,23 +1,28 @@
-const templateSheetName = "template";  // テンプレートなど記載シート
-const srcSheetName      = "開発リスト";   // 使用シート
+const templateSheetName = "開発メンバー";  // テンプレートなど記載シート
+const srcSheetName      = "開発";   // 使用シート
 const completeSheetName = "完了";      // 開発完了移動先シート
 const keyWord           = "完了";      // keyWordであれば移動
 
 // 行
-const topRowPosition = 3;
+let defaultRowHeight    = 5;
+const topRowPosition    = 3;
+const srcTopRowPosition = 11;
 
 // 列
-const idColumnPosition            = 1; // issueId
-const envColumnPosition           = 6; // 修正の環境
-const progressLabelColumnPosition = 8; // 進捗状況ラベル
-const monthColumnPosition         = 2; // 現在の月
-const authorColumnPosition        = 3; // 作成者
-const titleColumnPosition         = 4; // タイトル
+const idColumnPosition            = 8; // issueId
+const envColumnPosition           = 9; // 修正の環境
+const progressLabelColumnPosition = 2; // 進捗状況ラベル
+const monthColumnPosition         = 6; // 現在の月
+const authorColumnPosition        = 7; // 作成者
+const titleColumnPosition         = 10; // タイトル
 
 // 初期設定
 // 環境
 const enviornments = {
-  "Sample-issue-" : "www",
+  "www.office-navi.jp": "www",
+  "rental-office-search.jp": "レンタルオフィス",
+  "oni.office-navi.jp": "oni",
+  "Sample-issue-" : "その他",
 }
 // ラベル
 const initialProgressLabel = '未着手';

@@ -27,7 +27,7 @@ function insertIssue(sheet,data){
 
     // rowPosが上限を超していたら補正
     rowPos = insertRows(rowPos, sheet, srcTopRowPosition, rowPos);
-    
+
     // データ入力
     sheet.getRange(rowPos, idColumnPosition).setValue(issue.id);
     sheet.getRange(rowPos, monthColumnPosition).setValue(nowMonth);
@@ -79,8 +79,8 @@ function getAuthorInfo(author){
   return [bufAuthor,bufAuthorColor];
 }
 
-
-
+// 文字型から定型分に含まれている反映予定日を抽出してDate型で返す。
+// text: 抽出元
 function dateParse( text ){
    // 正規表現パターンを定義: 📆  反映予定日 yyyy/mm/dd
   var datePattern = /📆\s*反映予定日\s*(\w{4})?\/?(\w{2})?\/?(\w{2})?/;

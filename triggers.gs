@@ -20,11 +20,12 @@ const releaseDateColumnPosition   = 5; // 反映予定日
 // 初期設定
 // 環境
 const enviornments = {
-  "www.office-navi.jp": "www",
+  "www.office-navi.jp"     : "www",
   "rental-office-search.jp": "レンタルオフィス",
-  "oni.office-navi.jp": "oni",
-  "Sample-issue-" : "その他",
+  "oni.office-navi.jp"     : "oni",
+  "Sample-issue-"          : "その他",
 }
+
 // ラベル
 const initialProgressLabel = '未着手';
 

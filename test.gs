@@ -1,17 +1,17 @@
 const testDoGithubWebhookJson = () => tesDoPost(
 {
-  "action": "opened",
+   "action": "edited",
   "issue": {
-    "url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/55",
+    "url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/72",
     "repository_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-",
-    "labels_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/55/labels{/name}",
-    "comments_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/55/comments",
-    "events_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/55/events",
-    "html_url": "https://github.com/sota-toshizumi/Sample-issue-/issues/55",
-    "id": 2455151302,
-    "node_id": "I_kwDOL--IQc6SVqLG",
-    "number": 55,
-    "title": "a",
+    "labels_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/72/labels{/name}",
+    "comments_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/72/comments",
+    "events_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/72/events",
+    "html_url": "https://github.com/sota-toshizumi/Sample-issue-/issues/72",
+    "id": 2457209513,
+    "node_id": "I_kwDOL--IQc6Sdgqp",
+    "number": 72,
+    "title": "dasdasf",
     "user": {
       "login": "sota-toshizumi",
       "id": 162069980,
@@ -43,14 +43,14 @@ const testDoGithubWebhookJson = () => tesDoPost(
     ],
     "milestone": null,
     "comments": 0,
-    "created_at": "2024-08-08T08:06:18Z",
-    "updated_at": "2024-08-08T08:06:18Z",
+    "created_at": "2024-08-09T06:34:56Z",
+    "updated_at": "2024-08-09T06:42:35Z",
     "closed_at": null,
     "author_association": "OWNER",
     "active_lock_reason": null,
-    "body": "/<!-- スプレッドシートに記録するかどうか（はい: 1、いいえ: 0）: 1 -->/",
+    "body": "<!-- スプレッドシートに記録するかどうか（ y , n ）: y -->\r\n📆  反映予定日 yyyy/mm/10\r\n\r\n## 関連リンク\r\n",
     "reactions": {
-      "url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/55/reactions",
+      "url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/72/reactions",
       "total_count": 0,
       "+1": 0,
       "-1": 0,
@@ -61,9 +61,14 @@ const testDoGithubWebhookJson = () => tesDoPost(
       "rocket": 0,
       "eyes": 0
     },
-    "timeline_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/55/timeline",
+    "timeline_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/issues/72/timeline",
     "performed_via_github_app": null,
     "state_reason": null
+  },
+  "changes": {
+    "body": {
+      "from": "<!-- スプレッドシートに記録するかどうか（ y , n ）: y -->\r\n📆  反映予定日 yyyy/mm/15\r\n\r\n## 関連リンク\r\n"
+    }
   },
   "repository": {
     "id": 804227137,
@@ -132,14 +137,14 @@ const testDoGithubWebhookJson = () => tesDoPost(
     "releases_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/releases{/id}",
     "deployments_url": "https://api.github.com/repos/sota-toshizumi/Sample-issue-/deployments",
     "created_at": "2024-05-22T07:38:36Z",
-    "updated_at": "2024-07-11T09:35:16Z",
-    "pushed_at": "2024-07-11T09:35:12Z",
+    "updated_at": "2024-08-09T06:22:37Z",
+    "pushed_at": "2024-08-09T06:22:35Z",
     "git_url": "git://github.com/sota-toshizumi/Sample-issue-.git",
     "ssh_url": "git@github.com:sota-toshizumi/Sample-issue-.git",
     "clone_url": "https://github.com/sota-toshizumi/Sample-issue-.git",
     "svn_url": "https://github.com/sota-toshizumi/Sample-issue-",
     "homepage": null,
-    "size": 2,
+    "size": 3,
     "stargazers_count": 0,
     "watchers_count": 0,
     "language": null,
@@ -153,7 +158,7 @@ const testDoGithubWebhookJson = () => tesDoPost(
     "mirror_url": null,
     "archived": false,
     "disabled": false,
-    "open_issues_count": 53,
+    "open_issues_count": 70,
     "license": null,
     "allow_forking": true,
     "is_template": false,
@@ -163,7 +168,7 @@ const testDoGithubWebhookJson = () => tesDoPost(
     ],
     "visibility": "public",
     "forks": 0,
-    "open_issues": 53,
+    "open_issues": 70,
     "watchers": 0,
     "default_branch": "main"
   },
@@ -201,5 +206,8 @@ function tesDoPost(payload){
   }
   else if(payload.action == "unlabeled"){
     removeProgressLabel(srcSheet,payload);
+  }
+  else if(payload.action == "edited"){
+    editReleaseDate(srcSheet,payload);
   }
 }

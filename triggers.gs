@@ -15,6 +15,7 @@ const progressLabelColumnPosition = 2; // 進捗状況ラベル
 const monthColumnPosition         = 6; // 現在の月
 const authorColumnPosition        = 7; // 作成者
 const titleColumnPosition         = 10; // タイトル
+const releaseDateColumnPosition   = 5; // 反映予定日
 
 // 初期設定
 // 環境
@@ -69,6 +70,9 @@ function doPost(e){
   }
   else if(data.action == "unlabeled"){
     removeProgressLabel(srcSheet, data);
+  }
+  else if(data.action == "edited"){
+    editReleaseDate(srcSheet, data);
   }
 }
 

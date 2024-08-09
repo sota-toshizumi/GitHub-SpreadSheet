@@ -1,7 +1,10 @@
 const templateSheetName = "開発メンバー";  // テンプレートなど記載シート
-const srcSheetName      = "開発";   // 使用シート
-const completeSheetName = "完了";      // 開発完了移動先シート
-const keyWord           = "完了";      // keyWordであれば移動
+const srcSheetName      = "開発";        // 使用シート
+const completeSheetName = "完了";        // 開発完了移動先シート
+const keyWords          = [
+  "完了",
+  "処理済み",
+]
 
 // 行
 let defaultRowHeight    = 5;

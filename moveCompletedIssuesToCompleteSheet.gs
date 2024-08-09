@@ -12,7 +12,7 @@ function moveCompletedIssuesToCompleteSheet(){
   for(let i = srcSheet.getLastRow()-1;i >= 0 ; i--){
     
     //該当セルが目的のキーワードであれば行を完了シートに移動
-    if(value[i][progressLabelColumnPosition-1] === keyWord){    
+    if( keyWords.includes(value[i][progressLabelColumnPosition-1])){    
       // 行のハンドル取得
       var srcRowHandle = srcSheet.getRange(i+1,1,1,srcSheet.getLastColumn());
     

@@ -1,6 +1,6 @@
 function editReleaseDate(srcSheet, data){
   // コメントからログ記録の選択を抽出
-  var logToSheet = /<!-- スプレッドシートに記録するかどうか（ y , n ）: (.) -->/.exec(data.issue.body);
+  var logToSheet = /<!--\s*スプレッドシートに記録するかどうか（\s*y\s*,\s*n\s*）:\s*\[\s*(.)\s*]\s*-->/.exec(data.issue.body);
 
   // スプレッドシート挿入処理
   if (logToSheet && (logToSheet[1] === 'y' || logToSheet[1] === 'Y')){

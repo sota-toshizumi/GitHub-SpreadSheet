@@ -4,14 +4,13 @@ function editReleaseDate(srcSheet, data){
 
   // スプレッドシート挿入処理
   if (logToSheet && (logToSheet[1] === 'y' || logToSheet[1] === 'Y')){
-    // issueIdの取得
-    const issueId = data.issue.id;
+    const id = createId(data);
+
     // 行を上から見ていく
     for(let i=1; i<=srcSheet.getLastRow(); i++){
       var range = srcSheet.getRange(i,idColumnPosition);
-      var id    = range.getValue();
       // idが一致
-      if(id === issueId){
+      if(id === range.getValue()){
         // 現在の完了予定日を追加
         var bDate = srcSheet.getRange(i,releaseDateColumnPosition).getValue();
         var releaseDate = dateParse(data.issue.body);

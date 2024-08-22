@@ -1,3 +1,7 @@
+function createId(data){
+  return `${data.repository.id}_${data.issue.id}`;
+}
+
 function insertIssue(sheet,data){
   // テンプレートの取得
   var templateSheet      = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
@@ -29,7 +33,7 @@ function insertIssue(sheet,data){
     rowPos = insertRows(rowPos, sheet, srcTopRowPosition, rowPos);
 
     // データ入力
-    sheet.getRange(rowPos, idColumnPosition).setValue(issue.id);
+    sheet.getRange(rowPos, idColumnPosition).setValue(createId(data));
     sheet.getRange(rowPos, monthColumnPosition).setValue(nowMonth);
     sheet.getRange(rowPos, authorColumnPosition).setValue(author);
     sheet.getRange(rowPos, progressLabelColumnPosition).setValue(progressLabel);

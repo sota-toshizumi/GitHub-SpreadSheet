@@ -4,7 +4,7 @@ function editReleaseDate(srcSheet, data){
 
   // スプレッドシート挿入処理
   if (logToSheet && (logToSheet[1] === 'y' || logToSheet[1] === 'Y')){
-    const id = createId(data);
+    const uniqueId = createUniqueId(data);
 
     // 行を上から見ていく
     for(let i=1; i<=srcSheet.getLastRow(); i++){

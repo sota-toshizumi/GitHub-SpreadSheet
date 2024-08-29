@@ -4,14 +4,18 @@ function editReleaseDate(srcSheet, data){
 
   // スプレッドシート挿入処理
   if (logToSheet && (logToSheet[1] === 'y' || logToSheet[1] === 'Y')){
-    // issueIdの取得
-    const issueId = data.issue.id;
+    const uniqueId = new UniqueId(data.repository.id, data.issue.id);
+    
     // 行を上から見ていく
     for(let i=1; i<=srcSheet.getLastRow(); i++){
       var range = srcSheet.getRange(i,idColumnPosition);
-      var id    = range.getValue();
+
+      const currentRowUniqueId = UniqueId.from(range.getValue());
+      if (currentRowUniqueId === null)
+        continue; // 手動で作られた課題の行の可能性が高い
+
       // idが一致
-      if(id === issueId){
+      if(uniqueId.isSame(currentRowUniqueId)){
         // 現在の完了予定日を追加
         var bDate = srcSheet.getRange(i,releaseDateColumnPosition).getValue();
         var releaseDate = dateParse(data.issue.body);

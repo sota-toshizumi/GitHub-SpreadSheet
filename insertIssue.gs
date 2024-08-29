@@ -1,34 +1,3 @@
-class UniqueId {
-  constructor(repoId, issueId) {
-    // 文字列として扱わないと、おかしくなる
-    this.repoId = repoId.toString();
-    this.issueId = issueId.toString();
-  }
-
-  // 文字列を受け取り、このクラスを作成する
-  // 失敗したらnullを返す
-  static from(s) {
-    try {
-      const parsed = JSON.parse(s);
-      if ('repoId' in parsed && 'issueId' in parsed)
-        return parsed;
-      else
-        return null;
-    } catch {
-      return null;
-    }
-  }
-
-  toString() {
-    return JSON.stringify(this);
-  }
-
-  // 同一かどうか確認する
-  isSame(other) {
-    return this.repoId === other.repoId && this.issueId === other.issueId;
-  }
-}
-
 function insertIssue(sheet,data){
   // テンプレートの取得
   var templateSheet      = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(templateSheetName);
@@ -41,7 +10,6 @@ function insertIssue(sheet,data){
   var [author, authorColor] = getAuthorInfo(user);
   var nowMonth              = (new Date().getMonth() + 1) + "月";
   var releaseDate           = dateParse(issue.body);
-  const uniqueId            = new UniqueId(data.repository.id, data.issue.id);
   
   // 進捗状況は最終に登録したlabelを反映する
   var progressLabel = initialProgressLabel;
@@ -61,7 +29,7 @@ function insertIssue(sheet,data){
     rowPos = insertRows(rowPos, sheet, srcTopRowPosition, rowPos);
 
     // データ入力
-    sheet.getRange(rowPos, idColumnPosition).setValue(uniqueId.toString());
+    sheet.getRange(rowPos, idColumnPosition).setValue(issue.id);
     sheet.getRange(rowPos, monthColumnPosition).setValue(nowMonth);
     sheet.getRange(rowPos, authorColumnPosition).setValue(author);
     sheet.getRange(rowPos, progressLabelColumnPosition).setValue(progressLabel);

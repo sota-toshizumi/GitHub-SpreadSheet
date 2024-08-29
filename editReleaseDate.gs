@@ -18,7 +18,7 @@ function editReleaseDate(srcSheet, data){
       if(uniqueId.isSame(currentRowUniqueId)){
         // 現在の完了予定日を追加
         var bDate = srcSheet.getRange(i,releaseDateColumnPosition).getValue();
-        var releaseDate = dateParse(data.issue.body);
+        var releaseDate = getDueDate(data.issue.body);
         srcSheet.getRange(i,releaseDateColumnPosition).setValue(releaseDate);
         return 0;
       }

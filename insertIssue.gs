@@ -40,7 +40,7 @@ function insertIssue(sheet,data){
   var user                  = issue.user.login;
   var [author, authorColor] = getAuthorInfo(user);
   var nowMonth              = (new Date().getMonth() + 1) + "月";
-  var releaseDate           = dateParse(issue.body);
+  var releaseDate           = getDueDate(issue.body);
   const uniqueId            = new UniqueId(data.repository.id, data.issue.id);
   
   // 進捗状況は最終に登録したlabelを反映する
@@ -113,7 +113,7 @@ function getAuthorInfo(author){
 
 // 文字型から定型分に含まれている反映予定日を抽出してDate型で返す。
 // text: 抽出元
-function dateParse( text ){
+function getDueDate( text ){
    // 正規表現パターンを定義: 📆  反映予定日 yyyy/mm/dd
   var datePattern = /📆\s*反映予定日\s*(\w{4})?\/?(\w{2})?\/?(\w{2})?/;
 

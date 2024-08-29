@@ -76,7 +76,7 @@ function doPost(e){
     removeProgressLabel(srcSheet, data);
   }
   else if(data.action == "edited"){
-    editReleaseDate(srcSheet, data);
+    updateDueDate(srcSheet, data);
   }
 }
 

@@ -1,4 +1,4 @@
-function editReleaseDate(srcSheet, data){
+function updateDueDate(srcSheet, data){
   // コメントからログ記録の選択を抽出
   var logToSheet = /<!--\s*スプレッドシートに記録するかどうか（\s*y\s*,\s*n\s*）:\s*\[\s*(.)\s*]\s*-->/.exec(data.issue.body);
 

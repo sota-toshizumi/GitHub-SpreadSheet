@@ -12,7 +12,7 @@ const topRowPosition    = 3;
 const srcTopRowPosition = 11;
 
 // 列
-const idColumnPosition            = 8; // issueId
+const idColumnPosition            = 8; // repositoryId_issueId
 const envColumnPosition           = 9; // 修正の環境
 const progressLabelColumnPosition = 2; // 進捗状況ラベル
 const monthColumnPosition         = 6; // 現在の月

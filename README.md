@@ -1,16 +1,41 @@
-# Githubのissueをスプレッドシートに反映
+# 機能
 
-### 概要
-githubのwebhookを用いて、githubのissueが更新されたらスプレッドシートにリクエストを送信しスプレッドシート上に情報の追加,更新を行う。
-### 実装機能
-- 新規issue作成時にスプレッドシートにも同様の内容を追加する。 
+- 新規issue作成時にスプレッドシートにも同様の内容を追加する。
 - issueのラベル更新時に対応したスプレッドシート上の進捗状況も更新する。
 - スプレッドシート上の進捗状況が[完了]になれば別途専用のシートに対象行を移動する。
-### 実装内容
-#### github側
-githubのwebhookの登録を行う。
 
-- settings-webhookにて設定を行う。
-- スプレッドシート(GAS)デプロイ時に発行されるurlの登録。
-#### spreadsheet側
-スプレッドシート拡張機能Google Apps Script(GAS)でシート操作,httpリクエスト処理を行う。
+# はじめに
+
+## Google Apps Script APIの有効化
+
+https://script.google.com/home/usersettings から Google Apps Script APIをオンに変更してください。
+
+## 設定ファイル
+
+```bash
+$ cp .clasp.json.template .clasp.json
+```
+
+`.clasp.json`内の`scriptId`を、対象のスプレッドシートのスクリプトIDに変更してください。
+https://blog-and-destroy.com/42782
+
+## 依存関係のインストール
+
+```bash
+$ npm i
+```
+
+## Claspのログイン
+
+```bash
+$ npx clasp login
+```
+
+# デプロイ
+
+```bash
+$ npm run deploy
+```
+
+ブラウザのGASエディタ右上のデプロイボタンから、`新しいデプロイ`を選択し`ウェブアプリ`としてデプロイしてください。
+そして、生成されたウェブアプリのURLをGitHubのWebhookに設定し直したら反映完了です。

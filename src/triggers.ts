@@ -1,13 +1,13 @@
-import { moveCompletedIssuesToCompleteSheet } from "./moveCompletedIssuesToCompleteSheet";
-import { Updater } from "./updater";
-import { Writer } from "./writer";
-import { IssuesEvent } from "@octokit/webhooks-types";
+import { moveCompletedIssuesToCompleteSheet } from './moveCompletedIssuesToCompleteSheet';
+import { Updater } from './updater';
+import { Writer } from './writer';
+import { IssuesEvent } from '@octokit/webhooks-types';
 
 // テンプレートなど記載シート
-export const templateSheetName = "開発メンバー";
-export const srcSheetName = "開発";
-export const completeSheetName = "完了";
-export const keyWords = ["完了", "処理済み"];
+export const templateSheetName = '開発メンバー';
+export const srcSheetName = '開発';
+export const completeSheetName = '完了';
+export const keyWords = ['完了', '処理済み'];
 
 // 行
 export const topRowPosition = 3;
@@ -28,20 +28,20 @@ export type Environments = {
   [key: string]: string;
 };
 export const environments: Environments = {
-  "www.office-navi.jp": "www",
-  "rental-office-search.jp": "レンタルオフィス",
-  "oni.office-navi.jp": "oni",
-  "Sample-issue-": "その他",
+  'www.office-navi.jp': 'www',
+  'rental-office-search.jp': 'レンタルオフィス',
+  'oni.office-navi.jp': 'oni',
+  'Sample-issue-': 'その他',
 };
 
 // ラベル
 export type Labels = {
   [key: string]: string;
 };
-export const initialProgressLabel = "未着手";
+export const initialProgressLabel = '未着手';
 
 // ラベルの対応設定をスプレッドシートから読み取るための設定
-export const templateLabelTitle = "git_label";
+export const templateLabelTitle = 'git_label';
 export const templateGitProgressLabelColPos = 4;
 export const templateProgressLabelColPos = 5;
 export const templateGitIdColumnPosition = 1;
@@ -54,15 +54,15 @@ export function onOpen() {
 
   // メニューバーに完了確認を追加
   const ui = SpreadsheetApp.getUi();
-  ui.createMenu("完了！")
-    .addItem("完了！", "moveCompletedIssuesToCompleteSheet")
+  ui.createMenu('完了！')
+    .addItem('完了！', 'moveCompletedIssuesToCompleteSheet')
     .addToUi();
 }
 
 // httpリクエストが来たら発火されるシンプルトリガー
 export function doPost(e: GoogleAppsScript.Events.DoPost) {
   if (e == null || e.postData == null || e.postData.contents == null) {
-    throw new Error("POSTデータが正しくありません");
+    throw new Error('POSTデータが正しくありません');
   }
 
   // POSTデータから抽出
@@ -74,7 +74,7 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName(srcSheetName);
 
   if (!templateSheet || !srcSheet) {
-    throw new Error("シートが見つかりませんでした");
+    throw new Error('シートが見つかりませんでした');
   }
 
   const progressLabels = getTemplateProgressLabels(templateSheet);
@@ -82,20 +82,20 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
   const writer = new Writer(templateSheet, srcSheet, progressLabels);
   const updater = new Updater(templateSheet, srcSheet, progressLabels);
 
-  if (data.action == "opened") {
+  if (data.action == 'opened') {
     writer.insertIssue(data);
-  } else if (data.action == "labeled") {
+  } else if (data.action == 'labeled') {
     updater.updateProgressLabel(data);
-  } else if (data.action == "unlabeled") {
+  } else if (data.action == 'unlabeled') {
     updater.removeProgressLabel(data);
-  } else if (data.action == "edited") {
+  } else if (data.action == 'edited') {
     updater.updateDueDate(data);
   }
 }
 
 // スプレッドシートからラベル一覧を取得する
 export function getTemplateProgressLabels(
-  templateSheet: GoogleAppsScript.Spreadsheet.Sheet
+  templateSheet: GoogleAppsScript.Spreadsheet.Sheet,
 ): Labels {
   let progressLabels: Labels = {};
 
@@ -106,7 +106,7 @@ export function getTemplateProgressLabels(
   const targertIndex =
     templateProgressLabelColPos - templateGitProgressLabelColPos;
   for (const key in labelValue) {
-    if (labelValue[key][0] != "" && labelValue[key][0] != templateLabelTitle) {
+    if (labelValue[key][0] != '' && labelValue[key][0] != templateLabelTitle) {
       progressLabels[labelValue[key][0]] = labelValue[key][targertIndex];
     }
   }

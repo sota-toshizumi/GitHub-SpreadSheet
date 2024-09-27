@@ -12,10 +12,10 @@ import {
   templateAuthorColumnPosition,
   templateGitIdColumnPosition,
   titleColumnPosition,
-} from "./triggers";
-import { getDueDate, searchPosition, insertRows } from "./utils";
-import { UniqueId } from "./uniqueId";
-import { IssuesOpenedEvent } from "@octokit/webhooks-types";
+} from './triggers';
+import { getDueDate, searchPosition, insertRows } from './utils';
+import { UniqueId } from './uniqueId';
+import { IssuesOpenedEvent } from '@octokit/webhooks-types';
 
 export class Writer {
   templateSheet: GoogleAppsScript.Spreadsheet.Sheet;
@@ -26,7 +26,7 @@ export class Writer {
   constructor(
     templateSheet: GoogleAppsScript.Spreadsheet.Sheet,
     srcSheet: GoogleAppsScript.Spreadsheet.Sheet,
-    progressLabels: Labels
+    progressLabels: Labels,
   ) {
     this.templateSheet = templateSheet;
     this.srcSheet = srcSheet;
@@ -36,7 +36,7 @@ export class Writer {
   insertIssue(data: IssuesOpenedEvent) {
     const issue = data.issue;
     if (!issue.body) {
-      throw new Error("Issueの本文がありませんでした");
+      throw new Error('Issueの本文がありませんでした');
     }
 
     // テンプレートの取得
@@ -44,14 +44,14 @@ export class Writer {
       1,
       1,
       1,
-      this.templateSheet.getLastColumn()
+      this.templateSheet.getLastColumn(),
     );
 
     // 挿入するデータ
     const url = issue.html_url;
     const user = issue.user.login;
     const { author, authorColor } = this.getAuthorInfo(user);
-    const nowMonth = new Date().getMonth() + 1 + "月";
+    const nowMonth = new Date().getMonth() + 1 + '月';
     const releaseDate = getDueDate(issue.body);
     const uniqueId = new UniqueId(data.repository.id, data.issue.id);
 
@@ -64,11 +64,11 @@ export class Writer {
     // コメントからログ記録の選択を抽出
     const logToSheet =
       /<!--\s*スプレッドシートに記録するかどうか（\s*y\s*,\s*n\s*）:\s*\[\s*(.)\s*]\s*-->/.exec(
-        issue.body
+        issue.body,
       );
 
     // スプレッドシート挿入処理
-    if (logToSheet && (logToSheet[1] === "y" || logToSheet[1] === "Y")) {
+    if (logToSheet && (logToSheet[1] === 'y' || logToSheet[1] === 'Y')) {
       // 挿入する行の特定
       let rowPos = searchPosition(nowMonth, author, this.srcSheet);
 
@@ -101,12 +101,12 @@ export class Writer {
       templateRowHandle.copyTo(
         trgRowHandle,
         SpreadsheetApp.CopyPasteType.PASTE_FORMAT,
-        false
+        false,
       );
       templateRowHandle.copyTo(
         trgRowHandle,
         SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION,
-        false
+        false,
       );
       this.defaultRowHeight = this.templateSheet.getRowHeight(1);
       // セルにカラーをつける
@@ -136,7 +136,7 @@ export class Writer {
       1,
       templateGitIdColumnPosition,
       this.templateSheet.getLastRow(),
-      1
+      1,
     );
     const values = range.getValues();
 
@@ -148,7 +148,7 @@ export class Writer {
 
     // もし該当がなければ[author,#fffff]を返す
     let bufAuthor = author_id;
-    let bufAuthorColor = "#ffffff";
+    let bufAuthorColor = '#ffffff';
 
     if (bufAuthorRow) {
       bufAuthor = this.templateSheet

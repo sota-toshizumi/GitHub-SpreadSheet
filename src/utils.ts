@@ -4,7 +4,7 @@ import {
   monthColumnPosition,
   authorColumnPosition,
   topRowPosition,
-} from "./triggers";
+} from './triggers';
 
 // text: 抽出元
 export function getDueDate(text: string): Date {
@@ -43,7 +43,7 @@ export function getDueDate(text: string): Date {
 
     // 日付オブジェクトを作成
     const date = new Date(year, month, day);
-    if (date.toString() == "Invalid Date") {
+    if (date.toString() == 'Invalid Date') {
       return new Date();
     } else {
       return date;
@@ -62,7 +62,7 @@ export function getDueDate(text: string): Date {
 export function searchPosition(
   srcMonth: any,
   srcAuthor: any,
-  targetSheet: GoogleAppsScript.Spreadsheet.Sheet
+  targetSheet: GoogleAppsScript.Spreadsheet.Sheet,
 ): number {
   // 入力先シートが空じゃなければ
   if (targetSheet.getLastRow()) {
@@ -71,7 +71,7 @@ export function searchPosition(
       1,
       monthColumnPosition,
       targetSheet.getLastRow(),
-      2
+      2,
     );
     const diffCheckData = targetRange.getValues();
 
@@ -81,12 +81,12 @@ export function searchPosition(
 
     for (let i = 0; i < targetSheet.getLastRow(); i++) {
       if (
-        typeof diffCheckData[i][monthIndex] == "string" ||
-        typeof diffCheckData[i][monthIndex] == "number"
+        typeof diffCheckData[i][monthIndex] == 'string' ||
+        typeof diffCheckData[i][monthIndex] == 'number'
       ) {
         // もし月が空文字じゃなくて月が一致してなかったらその時点の行の一つ前の行番号を返す
         if (
-          diffCheckData[i][monthIndex] != "" &&
+          diffCheckData[i][monthIndex] != '' &&
           diffCheckData[i][monthIndex] != srcMonth
         ) {
           return i;
@@ -118,14 +118,14 @@ export function insertRows(
   rowPos: number,
   targetSheet: GoogleAppsScript.Spreadsheet.Sheet,
   topRowPosition: number,
-  insertRowsPosition: number
+  insertRowsPosition: number,
 ): number {
   insertRowsPosition = Math.max(insertRowsPosition, 0);
   while (rowPos < topRowPosition) {
     targetSheet.insertRowBefore(insertRowsPosition);
     targetSheet
       .getRange(insertRowsPosition, 1, 1, targetSheet.getLastColumn())
-      .setBackground("#ffffff");
+      .setBackground('#ffffff');
     targetSheet
       .getRange(insertRowsPosition, 1, 1, targetSheet.getLastColumn())
       .clearDataValidations();

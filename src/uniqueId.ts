@@ -13,7 +13,7 @@ export class UniqueId {
   static from(s: string) {
     try {
       const parsed = JSON.parse(s);
-      if ("repoId" in parsed && "issueId" in parsed) return parsed;
+      if ('repoId' in parsed && 'issueId' in parsed) return parsed;
       else return null;
     } catch {
       return null;

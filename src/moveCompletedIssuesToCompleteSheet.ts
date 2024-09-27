@@ -6,8 +6,8 @@ import {
   monthColumnPosition,
   authorColumnPosition,
   topRowPosition,
-} from "./triggers";
-import { searchPosition, insertRows } from "./utils";
+} from './triggers';
+import { searchPosition, insertRows } from './utils';
 
 export function moveCompletedIssuesToCompleteSheet() {
   // シートのインスタンス作成
@@ -16,7 +16,7 @@ export function moveCompletedIssuesToCompleteSheet() {
   const completeSheet = sheets.getSheetByName(completeSheetName);
 
   if (!srcSheet || !completeSheet) {
-    throw new Error("シートが見つかりませんでした");
+    throw new Error('シートが見つかりませんでした');
   }
 
   //　シート全体を見るためのハンドルとデータ型を取得
@@ -24,7 +24,7 @@ export function moveCompletedIssuesToCompleteSheet() {
     1,
     1,
     srcSheet.getLastRow(),
-    srcSheet.getLastColumn()
+    srcSheet.getLastColumn(),
   );
   const value = dataRange.getValues();
 
@@ -37,7 +37,7 @@ export function moveCompletedIssuesToCompleteSheet() {
         i + 1,
         1,
         1,
-        srcSheet.getLastColumn()
+        srcSheet.getLastColumn(),
       );
 
       // 移動元の月と編集者
@@ -54,7 +54,7 @@ export function moveCompletedIssuesToCompleteSheet() {
       srcRowHandle.copyTo(
         completeSheet.getRange(rowPos, 1),
         SpreadsheetApp.CopyPasteType.PASTE_NORMAL,
-        false
+        false,
       );
       srcSheet.deleteRow(i + 1);
     }

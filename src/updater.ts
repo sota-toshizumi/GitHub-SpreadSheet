@@ -2,16 +2,16 @@ import {
   IssuesEditedEvent,
   IssuesLabeledEvent,
   IssuesUnlabeledEvent,
-} from "@octokit/webhooks-types";
+} from '@octokit/webhooks-types';
 import {
   idColumnPosition,
   initialProgressLabel,
   Labels,
   progressLabelColumnPosition,
   releaseDateColumnPosition,
-} from "./triggers";
-import { UniqueId } from "./uniqueId";
-import { getDueDate } from "./utils";
+} from './triggers';
+import { UniqueId } from './uniqueId';
+import { getDueDate } from './utils';
 
 export class Updater {
   templateSheet: GoogleAppsScript.Spreadsheet.Sheet;
@@ -21,7 +21,7 @@ export class Updater {
   constructor(
     templateSheet: GoogleAppsScript.Spreadsheet.Sheet,
     srcSheet: GoogleAppsScript.Spreadsheet.Sheet,
-    progressLabels: Labels
+    progressLabels: Labels,
   ) {
     this.templateSheet = templateSheet;
     this.srcSheet = srcSheet;
@@ -30,7 +30,7 @@ export class Updater {
 
   updateProgressLabel(data: IssuesLabeledEvent) {
     if (!data.label) {
-      throw new Error("ラベルがありませんでした");
+      throw new Error('ラベルがありませんでした');
     }
 
     const uniqueId = new UniqueId(data.repository.id, data.issue.id);
@@ -83,17 +83,17 @@ export class Updater {
 
   updateDueDate(data: IssuesEditedEvent) {
     if (!data.issue.body) {
-      throw new Error("Issueの本文がありませんでした");
+      throw new Error('Issueの本文がありませんでした');
     }
 
     // コメントからログ記録の選択を抽出
     const logToSheet =
       /<!--\s*スプレッドシートに記録するかどうか（\s*y\s*,\s*n\s*）:\s*\[\s*(.)\s*]\s*-->/.exec(
-        data.issue.body
+        data.issue.body,
       );
 
     // スプレッドシート挿入処理
-    if (logToSheet && (logToSheet[1] === "y" || logToSheet[1] === "Y")) {
+    if (logToSheet && (logToSheet[1] === 'y' || logToSheet[1] === 'Y')) {
       const uniqueId = new UniqueId(data.repository.id, data.issue.id);
 
       // 行を上から見ていく

@@ -3,32 +3,25 @@ import {
   IssuesLabeledEvent,
   IssuesUnlabeledEvent,
 } from '@octokit/webhooks-types';
-import {
-  idColumnPosition,
-  initialProgressLabel,
-  Labels,
-  progressLabelColumnPosition,
-  releaseDateColumnPosition,
-} from './triggers';
+import { sheetConfigs } from './triggers';
 import { UniqueId } from './uniqueId';
 import { getDueDate } from './utils';
 
 export class Updater {
   templateSheet: GoogleAppsScript.Spreadsheet.Sheet;
   srcSheet: GoogleAppsScript.Spreadsheet.Sheet;
-  progressLabels: Labels;
 
   constructor(
     templateSheet: GoogleAppsScript.Spreadsheet.Sheet,
     srcSheet: GoogleAppsScript.Spreadsheet.Sheet,
-    progressLabels: Labels,
   ) {
     this.templateSheet = templateSheet;
     this.srcSheet = srcSheet;
-    this.progressLabels = progressLabels;
   }
 
   updateProgressLabel(data: IssuesLabeledEvent) {
+    const { idColumnPosition, progressLabelColumnPosition, progressLabels } =
+      sheetConfigs(this.templateSheet);
     if (!data.label) {
       throw new Error('ラベルがありませんでした');
     }
@@ -51,13 +44,19 @@ export class Updater {
         // テンプレートにラベルに対応する情報があれば更新、なければ変更なし
         this.srcSheet
           .getRange(i, progressLabelColumnPosition)
-          .setValue(this.progressLabels[data.label.name] || bStatus);
+          .setValue(progressLabels[data.label.name] || bStatus);
       }
     }
   }
 
   // unLabelのリクエスト
   removeProgressLabel(data: IssuesUnlabeledEvent) {
+    const {
+      idColumnPosition,
+      progressLabelColumnPosition,
+      initialProgressLabel,
+      progressLabels,
+    } = sheetConfigs(this.templateSheet);
     const uniqueId = new UniqueId(data.repository.id, data.issue.id);
 
     // シートを上からissueIdが一致するか確認する
@@ -71,7 +70,7 @@ export class Updater {
       if (uniqueId.isSame(currentRowUniqueId)) {
         let progressLabel = initialProgressLabel;
         for (const label in data.issue.labels) {
-          progressLabel = this.progressLabels[label] || progressLabel;
+          progressLabel = progressLabels[label] || progressLabel;
         }
         this.srcSheet
           .getRange(i, progressLabelColumnPosition)
@@ -82,6 +81,9 @@ export class Updater {
   }
 
   updateDueDate(data: IssuesEditedEvent) {
+    const { idColumnPosition, releaseDateColumnPosition } = sheetConfigs(
+      this.templateSheet,
+    );
     if (!data.issue.body) {
       throw new Error('Issueの本文がありませんでした');
     }

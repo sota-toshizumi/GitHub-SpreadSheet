@@ -1,15 +1,17 @@
-import {
-  srcSheetName,
-  completeSheetName,
-  keyWords,
-  progressLabelColumnPosition,
-  monthColumnPosition,
-  authorColumnPosition,
-  topRowPosition,
-} from './triggers';
+import { sheetConfigs } from './triggers';
 import { searchPosition, insertRows } from './utils';
 
 export function moveCompletedIssuesToCompleteSheet() {
+  const {
+    srcSheetName,
+    completeSheetName,
+    keyWords,
+    progressLabelColumnPosition,
+    monthColumnPosition,
+    authorColumnPosition,
+    topRowPosition,
+  } = sheetConfigs();
+
   // シートのインスタンス作成
   const sheets = SpreadsheetApp.getActiveSpreadsheet();
   const srcSheet = sheets.getSheetByName(srcSheetName);

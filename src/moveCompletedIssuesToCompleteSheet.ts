@@ -1,4 +1,4 @@
-import { sheetConfigs } from './triggers';
+import { sheetConfigs } from './sheetConfigs';
 import { searchPosition, insertRows } from './utils';
 
 export function moveCompletedIssuesToCompleteSheet() {

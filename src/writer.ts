@@ -1,4 +1,4 @@
-import { sheetConfigs } from './triggers';
+import { sheetConfigs } from './sheetConfigs';
 import { getDueDate, searchPosition, insertRows } from './utils';
 import { UniqueId } from './uniqueId';
 import { IssuesOpenedEvent } from '@octokit/webhooks-types';

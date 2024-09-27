@@ -1,6 +1,6 @@
 // 文字型から定型分に含まれている反映予定日を抽出してDate型で返す。
 
-import { sheetConfigs } from './triggers';
+import { sheetConfigs } from './sheetConfigs';
 
 // text: 抽出元
 export function getDueDate(text: string): Date {

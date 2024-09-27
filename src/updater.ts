@@ -3,7 +3,7 @@ import {
   IssuesLabeledEvent,
   IssuesUnlabeledEvent,
 } from '@octokit/webhooks-types';
-import { sheetConfigs } from './triggers';
+import { sheetConfigs } from './sheetConfigs';
 import { UniqueId } from './uniqueId';
 import { getDueDate } from './utils';
 

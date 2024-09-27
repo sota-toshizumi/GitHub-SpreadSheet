@@ -1,10 +1,6 @@
 // 文字型から定型分に含まれている反映予定日を抽出してDate型で返す。
 
-import {
-  monthColumnPosition,
-  authorColumnPosition,
-  topRowPosition,
-} from './triggers';
+import { sheetConfigs } from './sheetConfigs';
 
 // text: 抽出元
 export function getDueDate(text: string): Date {
@@ -64,6 +60,8 @@ export function searchPosition(
   srcAuthor: any,
   targetSheet: GoogleAppsScript.Spreadsheet.Sheet,
 ): number {
+  const { monthColumnPosition, authorColumnPosition, topRowPosition } =
+    sheetConfigs();
   // 入力先シートが空じゃなければ
   if (targetSheet.getLastRow()) {
     // 移動先シートのデータ取得

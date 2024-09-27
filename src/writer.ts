@@ -1,18 +1,4 @@
-import {
-  authorColumnPosition,
-  envColumnPosition,
-  environments,
-  idColumnPosition,
-  initialProgressLabel,
-  Labels,
-  monthColumnPosition,
-  progressLabelColumnPosition,
-  releaseDateColumnPosition,
-  srcTopRowPosition,
-  templateAuthorColumnPosition,
-  templateGitIdColumnPosition,
-  titleColumnPosition,
-} from './triggers';
+import { sheetConfigs } from './sheetConfigs';
 import { getDueDate, searchPosition, insertRows } from './utils';
 import { UniqueId } from './uniqueId';
 import { IssuesOpenedEvent } from '@octokit/webhooks-types';
@@ -20,20 +6,31 @@ import { IssuesOpenedEvent } from '@octokit/webhooks-types';
 export class Writer {
   templateSheet: GoogleAppsScript.Spreadsheet.Sheet;
   srcSheet: GoogleAppsScript.Spreadsheet.Sheet;
-  progressLabels: Labels;
   defaultRowHeight = 5;
 
   constructor(
     templateSheet: GoogleAppsScript.Spreadsheet.Sheet,
     srcSheet: GoogleAppsScript.Spreadsheet.Sheet,
-    progressLabels: Labels,
   ) {
     this.templateSheet = templateSheet;
     this.srcSheet = srcSheet;
-    this.progressLabels = progressLabels;
   }
 
   insertIssue(data: IssuesOpenedEvent) {
+    const {
+      srcTopRowPosition,
+      idColumnPosition,
+      monthColumnPosition,
+      authorColumnPosition,
+      progressLabelColumnPosition,
+      envColumnPosition,
+      environments,
+      releaseDateColumnPosition,
+      titleColumnPosition,
+      initialProgressLabel,
+      progressLabels,
+    } = sheetConfigs(this.templateSheet);
+
     const issue = data.issue;
     if (!issue.body) {
       throw new Error('Issueの本文がありませんでした');
@@ -58,7 +55,7 @@ export class Writer {
     // 進捗状況は最終に登録したlabelを反映する
     let progressLabel = initialProgressLabel;
     for (const label in data.issue.labels) {
-      progressLabel = this.progressLabels[label] || progressLabel;
+      progressLabel = progressLabels[label] || progressLabel;
     }
 
     // コメントからログ記録の選択を抽出
@@ -131,6 +128,9 @@ export class Writer {
     author: string;
     authorColor: string;
   } {
+    const { templateGitIdColumnPosition, templateAuthorColumnPosition } =
+      sheetConfigs(this.templateSheet);
+
     // テンプレートシートからデータ取得
     const range = this.templateSheet.getRange(
       1,
